@@ -1,6 +1,4 @@
 import type { CheckResult } from "../engine/checkTypes";
-import { KripkeGraph } from "./KripkeGraph";
-import { TableauView } from "./TableauView";
 import { verdictView } from "./verdictView";
 
 type ViewProps = {
@@ -56,6 +54,7 @@ type CellProps = {
   postulate: boolean;
   id: string;
   onPostulate: (value: boolean) => void;
+  onInspect?: (id: string) => void;
 };
 
 export function InspectorCell({
@@ -63,8 +62,11 @@ export function InspectorCell({
   postulate,
   id,
   onPostulate,
+  onInspect,
 }: CellProps) {
   const offerPostulate = postulate || result?.status === "incomplete";
+  const hasDetails = !postulate && result && (Boolean(result.proof) || Boolean(result.model));
+
   const className = [
     "inspector",
     postulate
@@ -95,12 +97,16 @@ export function InspectorCell({
         </label>
       ) : null}
 
-      {!postulate && result?.proof ? (
-        <TableauView tree={result.proof} />
-      ) : null}
-
-      {!postulate && result?.model ? (
-        <KripkeGraph model={result.model} />
+      {hasDetails && onInspect ? (
+        <button
+          type="button"
+          className="inspector-inspect-btn"
+          onClick={() => onInspect(id)}
+          aria-label={`Inspect ${id} details`}
+          title={`Inspect ${id} proof & countermodel`}
+        >
+          🔍 Details
+        </button>
       ) : null}
     </td>
   );
