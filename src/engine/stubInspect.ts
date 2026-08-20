@@ -1,4 +1,5 @@
 import type { CheckResult } from "./checkTypes";
+import { canonicalFormula } from "./formulaText";
 import { mockFalseRows, syllogism } from "./syntaxGuide";
 import { stubParse } from "./stubParse";
 
@@ -41,10 +42,14 @@ function stubCheckFormula(text: string, otherFormulas: string[]): CheckResult {
     };
   }
 
-  const others = new Set(otherFormulas.map((f) => f.trim()).filter(Boolean));
-  const hasSyllogismPremises = others.has(man) && others.has(menMortal);
+  const others = new Set(
+    otherFormulas.map((formula) => canonicalFormula(formula)).filter(Boolean),
+  );
+  const hasSyllogismPremises =
+    others.has(canonicalFormula(man)) && others.has(canonicalFormula(menMortal));
+  const canon = canonicalFormula(text);
 
-  if (text === socratesMortal && hasSyllogismPremises) {
+  if (canon === canonicalFormula(socratesMortal) && hasSyllogismPremises) {
     return {
       status: "correct",
       notes: [
@@ -55,7 +60,7 @@ function stubCheckFormula(text: string, otherFormulas: string[]): CheckResult {
     };
   }
 
-  if (text === socratesNotMortal && hasSyllogismPremises) {
+  if (canon === canonicalFormula(socratesNotMortal) && hasSyllogismPremises) {
     return {
       status: "false",
       notes: [

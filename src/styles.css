@@ -67,9 +67,79 @@ header {
 
 .propositions textarea,
 .propositions input[type="text"],
-.propositions input:not([type]) {
+.propositions input:not([type]),
+.propositions .formula-input {
   width: 100%;
   max-width: none;
+}
+
+.formula-input {
+  min-height: 1.6rem;
+  box-sizing: border-box;
+  font-family: ui-monospace, monospace;
+  padding: 0.15rem 0.25rem;
+  border: 1px solid #888;
+  background: #fff;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.formula-input:focus {
+  outline: 1px solid #222;
+}
+
+.formula-input[aria-invalid="true"] {
+  border-color: #b00020;
+}
+
+.formula-pretty,
+.formula-input {
+  font-family: ui-monospace, monospace;
+}
+
+.formula-pretty .tok-not,
+.formula-input .tok-not {
+  font-weight: 700;
+  color: #c62828;
+}
+
+.formula-pretty .tok-join,
+.formula-input .tok-join {
+  font-weight: 700;
+  color: #1565c0;
+}
+
+.formula-pretty .tok-quant,
+.formula-input .tok-quant {
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+.formula-pretty .tok-modal,
+.formula-input .tok-modal {
+  font-weight: 700;
+  color: #6a1b9a;
+}
+
+.formula-pretty .tok-eq,
+.formula-input .tok-eq {
+  font-weight: 700;
+  color: #ef6c00;
+}
+
+.formula-pretty .tok-pred,
+.formula-input .tok-pred {
+  color: #00838f;
+}
+
+.formula-pretty .tok-name,
+.formula-input .tok-name {
+  color: #6d4c41;
+}
+
+.formula-pretty .tok-punct,
+.formula-input .tok-punct {
+  color: #78909c;
 }
 
 .inspector {

@@ -11,6 +11,7 @@ import {
   syllogism,
   typingNotes,
 } from "../engine/syntaxGuide";
+import { FormulaView } from "./FormulaField";
 
 function Rows({ rows, aliases }: { rows: SyntaxRow[]; aliases: boolean }) {
   return (
@@ -79,10 +80,10 @@ export function SyntaxSection() {
       <h3>De re vs de dicto</h3>
       <ul>
         <li>
-          De dicto: <code>{deReDeDicto.dicto}</code> — {deReDeDicto.dictoGloss}
+          De dicto: <FormulaView text={deReDeDicto.dicto} /> — {deReDeDicto.dictoGloss}
         </li>
         <li>
-          De re: <code>{deReDeDicto.re}</code> — {deReDeDicto.reGloss}
+          De re: <FormulaView text={deReDeDicto.re} /> — {deReDeDicto.reGloss}
         </li>
       </ul>
       <h3>Example</h3>
@@ -100,7 +101,7 @@ export function SyntaxSection() {
               <td>{row.id}</td>
               <td>{row.naturalLanguage}</td>
               <td>
-                <code>{row.formula}</code>
+                <FormulaView text={row.formula} />
               </td>
             </tr>
           ))}

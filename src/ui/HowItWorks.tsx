@@ -36,10 +36,13 @@ export function HowItWorks({ onBack }: Props) {
           is incomplete; <code>{syllogism[2].formula}</code> is valid when the
           Socrates premises are present; <code>{mockFalseRows[0].formula}</code>{" "}
           is then false. Type <code>false</code> for false, <code>?</code> for
-          incomplete, unmatched parentheses for a formula error. An incomplete
-          row can be marked as a <strong>postulate</strong>: it is assumed, not
-          judged, and the inspector greys out. It still counts as a premise for
-          other rows.
+          incomplete, unmatched parentheses for a formula error. Type ASCII
+          keywords (<code>not</code>, <code>and</code>, <code>or</code>,{" "}
+          <code>forall</code>, <code>exists</code>, <code>nec</code>,{" "}
+          <code>pos</code>, <code>Ax</code>) or Unicode; keywords are bold and
+          colored. An incomplete row can be marked as a{" "}
+          <strong>postulate</strong>: it is assumed, not judged, and the
+          inspector greys out. It still counts as a premise for other rows.
         </li>
       </ol>
 

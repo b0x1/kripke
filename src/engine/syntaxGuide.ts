@@ -40,6 +40,38 @@ export const connectives: SyntaxRow[] = [
   { meaning: "Identity", ascii: "=", alias: "", unicode: "=" },
 ];
 
+/** Case-insensitive word spellings → Unicode. */
+export const keywordWords: Record<string, string> = {
+  not: "¬",
+  and: "∧",
+  or: "∨",
+  forall: "∀",
+  exists: "∃",
+  nec: "□",
+  pos: "◇",
+};
+
+/** Symbol spellings → Unicode. Longer keys first. */
+export const keywordSymbols: [string, string][] = [
+  ["<->", "↔"],
+  ["->", "→"],
+  ["[]", "□"],
+  ["<>", "◇"],
+  ["~", "¬"],
+  ["&", "∧"],
+  ["|", "∨"],
+  ["¬", "¬"],
+  ["∧", "∧"],
+  ["∨", "∨"],
+  ["→", "→"],
+  ["↔", "↔"],
+  ["□", "□"],
+  ["◇", "◇"],
+  ["∀", "∀"],
+  ["∃", "∃"],
+  ["=", "="],
+];
+
 export const typingNotes: string[] = [
   "ASCII is the typing language. Unicode aliases are accepted. Display uses Unicode.",
   "Ax / Ex need a capital A/E glued to the variable (Ax, Ey). Use forall / exists when that is ambiguous.",

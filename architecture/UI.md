@@ -8,7 +8,7 @@ Mockup workbench: one table, one row per proposition.
 Id | Natural language | Formula | Inspector
 ```
 
-Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts) plus `CheckResult.notes` from the checker. Checker adds info by pushing strings onto `notes` ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions. Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Stub: does not follow → incomplete; `Mortal(socrates)` valid when Socrates premises present; `¬Mortal(socrates)` then false; `false` → false; `?` → incomplete; unmatched `(` `)` → formula error. No inference pane.
+Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts) plus `CheckResult.notes` from the checker. Checker adds info by pushing strings onto `notes` ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions. Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Stub: does not follow → incomplete; `Mortal(socrates)` valid when Socrates premises present; `¬Mortal(socrates)` then false (ASCII `not` / `~` count); `false` → false; `?` → incomplete; unmatched `(` `)` → formula error. No inference pane.
 
 Target below is **after** mockup sign-off.
 
@@ -26,7 +26,7 @@ Table row per claim:
 
 - Id `P1`, `P2`, … sequential, stable until delete
 - Natural language textarea
-- Formula field
+- Formula field: ASCII keywords (`not`, `and`, `or`, `forall`, `exists`, `nec`, `pos`, `Ax`) and Unicode; syntax highlight (bold + color) via [`formulaText.ts`](../src/engine/formulaText.ts)
 - Live parse: Unicode pretty on success, span + message on fail
 - Add / remove
 

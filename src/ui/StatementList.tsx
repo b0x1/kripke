@@ -1,4 +1,5 @@
 import { inspectFormula } from "../engine/stubInspect";
+import { FormulaField } from "./FormulaField";
 import { InspectorCell } from "./InspectorCell";
 import type { Statement } from "./types";
 
@@ -46,11 +47,11 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
                   />
                 </td>
                 <td>
-                  <input
+                  <FormulaField
                     value={s.formula}
-                    onChange={(e) => onChange(s.id, { formula: e.target.value })}
+                    onChange={(formula) => onChange(s.id, { formula })}
+                    invalid={Boolean(look.parseError)}
                     aria-label={`${s.id} formula`}
-                    aria-invalid={look.parseError ? true : undefined}
                   />
                   {look.parseError ? (
                     <p className="formula-error">{look.parseError}</p>
