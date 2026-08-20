@@ -65,7 +65,8 @@ Later: tableau/countermodel. No separate `VerdictPane`.
 ### LogicBar
 
 Mockup: locked to system **D**, **constant** domain. In-app How it works (`HowItWorks`) is plain English.
-No system/domain pickers. Header wordmark: Kripke. Nav: How it works / Your claims.
+No system/domain pickers. Header wordmark: Kripke.
+Nav: Claims / How it works (current page highlighted). GitHub mark links to the repo.
 
 After sign-off, pickers may return. Target: K / T / D / B / S4 / S5, constant / varying.
 Change system or domain → cached verdicts become unchecked. Do not auto-recompute.

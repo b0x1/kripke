@@ -3,18 +3,9 @@ import { FormulaView } from "./FormulaField";
 import { SyntaxSection } from "./SyntaxSection";
 import { verdictView } from "./verdictView";
 
-type Props = {
-  onBack: () => void;
-};
-
-export function HowItWorks({ onBack }: Props) {
+export function HowItWorks() {
   return (
     <article className="guide">
-      <p>
-        <button type="button" onClick={onBack}>
-          Back to your claims
-        </button>
-      </p>
       <h1>How it works</h1>
       <p>
         Kripke is a reasoning tool for debate bros. You enter claims, formalize

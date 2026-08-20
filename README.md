@@ -7,6 +7,9 @@ You write claims in natural language, formalize them yourself, and the inspector
 pnpm install && pnpm dev
 ```
 
+Live: [b0x1.github.io/kripke](https://b0x1.github.io/kripke/).
+Push `master` publishes it (`.github/workflows/pages.yml`).
+
 ## Loop
 
 1. Numbered statements in natural language (e.g. `P1 Socrates is a man`).

@@ -50,7 +50,7 @@ body {
 .masthead {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 0.75rem 1.5rem;
   margin-bottom: 1.75rem;
@@ -71,6 +71,46 @@ body {
   margin: 0.2rem 0 0;
   color: var(--ink-muted);
   font-size: 0.9rem;
+}
+
+.masthead-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.masthead-nav button[aria-current="page"] {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.masthead-github {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.28rem;
+  color: var(--ink);
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.masthead-github:hover,
+.masthead-github:focus-visible {
+  color: var(--paper);
+  background: var(--ink);
+  outline: none;
+}
+
+.masthead-github:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.masthead-github svg {
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 button {
@@ -273,29 +313,37 @@ th {
 }
 
 .row-actions {
+  box-sizing: border-box;
   text-align: center;
   vertical-align: middle;
+  padding: 0.45rem 0.25rem;
 }
 
 .row-remove {
   display: inline-flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   padding: 0;
   border: 1px solid transparent;
   color: var(--vermillion);
   background: transparent;
 }
 
-button.row-remove:hover,
+button.row-remove:hover {
+  color: var(--paper);
+  background: var(--vermillion);
+  border-color: var(--vermillion);
+}
+
 button.row-remove:focus-visible {
   color: var(--paper);
   background: var(--vermillion);
   border-color: var(--vermillion);
   outline: 2px solid var(--vermillion);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
 .row-remove svg {

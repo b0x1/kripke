@@ -52,7 +52,7 @@ export function App() {
     <div className="page">
       <LogicBar page={page} onPage={setPage} />
       {page === "guide" ? (
-        <HowItWorks onBack={() => setPage("workbench")} />
+        <HowItWorks />
       ) : (
         <main>
           <StatementList
