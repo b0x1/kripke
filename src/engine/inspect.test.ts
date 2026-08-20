@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { inspectFormula } from "./inspect";
+import { inspectFormula, inspectSheet } from "./inspect";
 import { mockFalseRows, syllogism } from "./syntaxGuide";
 
 describe("inspectFormula", () => {
@@ -28,5 +28,29 @@ describe("inspectFormula", () => {
 
   it("leaves the inspector blank for an empty formula", () => {
     expect(inspectFormula("", others("P1")).result).toBeNull();
+  });
+});
+
+describe("inspectSheet", () => {
+  it("does not let a false row explode an unrelated atom", () => {
+    const rows = [
+      ...syllogism.map((row) =>
+        row.id === "P3" ? { ...row, formula: "A" } : row,
+      ),
+      ...mockFalseRows,
+    ];
+    const looks = inspectSheet(rows);
+    expect(looks.get("P3")?.result?.status).toBe("incomplete");
+    expect(looks.get("P4")?.result?.status).toBe("false");
+    expect(looks.get("P4")?.result?.contradicts).toEqual(["P1", "P2"]);
+    expect(looks.get("P1")?.result?.status).toBe("incomplete");
+    expect(looks.get("P2")?.result?.status).toBe("incomplete");
+  });
+
+  it("still marks Mortal(socrates) valid from P1 and P2", () => {
+    const looks = inspectSheet([...syllogism, ...mockFalseRows]);
+    expect(looks.get("P3")?.result?.status).toBe("correct");
+    expect(looks.get("P3")?.result?.bases).toEqual(["P1", "P2"]);
+    expect(looks.get("P4")?.result?.status).toBe("false");
   });
 });

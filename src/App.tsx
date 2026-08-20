@@ -20,7 +20,10 @@ export function App() {
   const [page, setPage] = useState<"workbench" | "guide">("workbench");
   const [seq, setSeq] = useState(mockPropositions.length + 1);
   const [statements, setStatements] = useState<Statement[]>(
-    mockPropositions.map((row) => ({ ...row, postulate: false })),
+    mockPropositions.map((row) => ({
+      ...row,
+      postulate: row.id === "P1" || row.id === "P2",
+    })),
   );
 
   function addStatement() {

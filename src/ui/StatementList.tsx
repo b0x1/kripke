@@ -1,4 +1,4 @@
-import { inspectFormula } from "../engine/inspect";
+import { inspectSheet } from "../engine/inspect";
 import { FormulaField } from "./FormulaField";
 import { InspectorCell } from "./InspectorCell";
 import type { Statement } from "./types";
@@ -14,6 +14,10 @@ type Props = {
 };
 
 export function StatementList({ statements, onChange, onAdd, onRemove }: Props) {
+  const looks = inspectSheet(
+    statements.map((s) => ({ id: s.id, formula: s.formula })),
+  );
+
   return (
     <section className="workbench">
       <h2>Claims</h2>
@@ -29,10 +33,7 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
         </thead>
         <tbody>
           {statements.map((s) => {
-            const others = statements
-              .filter((row) => row.id !== s.id)
-              .map((row) => ({ id: row.id, formula: row.formula }));
-            const look = inspectFormula(s.formula, others);
+            const look = looks.get(s.id) ?? { parseError: null, result: null };
             return (
               <tr key={s.id}>
                 <td>{s.id}</td>

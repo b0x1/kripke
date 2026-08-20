@@ -51,8 +51,10 @@ export function HowItWorks({ onBack }: Props) {
         </li>
         <li>
           <strong>{verdictView.false.label}</strong> — the other claims entail
-          its negation. The cell names the contradicted statement, e.g.{" "}
-          <code>contradicts P3</code>.
+          its negation. The cell names a syntactic opposite if there is one,
+          else the premises the refutation needs, e.g.{" "}
+          <code>contradicts P3</code>. A false row is not used as a premise for
+          the others.
         </li>
         <li>
           <strong>{verdictView.incomplete.label}</strong> — the other claims

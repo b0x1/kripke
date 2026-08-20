@@ -9,11 +9,19 @@ Workbench: one table, one row per proposition.
 Id | Natural language | Formula | Inspector
 ```
 
-Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column.
-Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts). Valid lists `bases` ids in the cell.
-False lists `contradicts` ids. Incomplete lists a short why in the cell (`not from` ids, or `search bound`).
-Each row is judged against the other propositions (complements dropped so a false row does not explode the rest).
-Incomplete → Claim checkbox (postulate: needs no proof); checked → grey inspector (`claim`), still a premise for other rows.
+Inspector: blank if no formula or the formula does not parse.
+Parse errors show in the formula column.
+Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts).
+Valid lists `bases` ids in the cell.
+False lists `contradicts` ids (a syntactic opposite, else the premises the refutation needs).
+Incomplete lists a short why in the cell (`not from` ids, or `search bound`).
+Each row is judged against the other propositions.
+Claims are taken in sheet order.
+A later contradiction of the rows above is false.
+It is not used as a premise, so it cannot explode the rest.
+Complements are also dropped.
+Incomplete → Claim checkbox (postulate: needs no proof);
+checked → grey inspector (`claim`), still a premise for other rows.
 Parse + tableau: unmatched `(` `)` → formula error. No inference pane. Columns NL:formula:inspector = 5:4:1.
 Remove is a vermillion bin icon.
 
@@ -49,8 +57,10 @@ Natural language is never parsed. Empty formula → blank inspector.
 
 ### Inspector
 
-On the proposition row. Valid → `from` the `bases` ids. False → `contradicts` ids.
-Incomplete → short why (`not from` ids, or `search bound`). Later: tableau/countermodel. No separate `VerdictPane`.
+On the proposition row. Valid → `from` the `bases` ids.
+False → `contradicts` ids (a syntactic opposite, else the premises the refutation needs).
+Incomplete → short why (`not from` ids, or `search bound`).
+Later: tableau/countermodel. No separate `VerdictPane`.
 
 ### LogicBar
 
@@ -93,4 +103,4 @@ Already formalized proposition lists.
 
 - Formula field: ASCII from `syntaxGuide.ts`. Palette optional.
 - Parse and stub check live on each row.
-- First visit: seeded mock propositions.
+- First visit: seeded mock propositions. P1 and P2 marked as claims (postulates).

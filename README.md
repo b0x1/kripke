@@ -13,8 +13,10 @@ pnpm install && pnpm dev
 2. You formalize each in FOML. The app does not translate natural language.
 3. Assumed logic: system **D**, **constant** domain, rigid designators.
 4. Inspector: **valid**, **false**, or **incomplete** (blank if no formula).
-   Valid names the base statements. False names the contradicted statement.
+   Valid names the base statements.
+   False names a syntactic opposite, else the premises the refutation needs.
    Incomplete names why (`not from` those statements, or `search bound`).
+   False rows (later contradictions of the claims above) are not used as premises.
    Incomplete rows can be marked as a **claim** (a postulate that needs no proof).
 
 ```mermaid
@@ -29,7 +31,8 @@ flowchart LR
 ## Verdicts
 
 - **Valid**: follows from the other propositions. The inspector names those base statements.
-- **False**: the other propositions rule it out. The inspector names the contradicted statement.
+- **False**: the other propositions rule it out.
+  The inspector names a syntactic opposite, else the premises the refutation needs.
 - **Incomplete**: does not follow from the others, and is not ruled out.
   The inspector says `not from` those statements, or `search bound` if the checker stopped.
   Empty formula: inspector blank, not incomplete.

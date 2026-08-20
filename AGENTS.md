@@ -26,7 +26,7 @@ pnpm exec tsc --noEmit
 pnpm test
 ```
 
-Smoke (once code exists): P1 P2 → incomplete; P3 → valid; P4 `¬Mortal(socrates)` → false;
+Smoke (once code exists): P1 P2 → claim; P3 → valid; P4 `¬Mortal(socrates)` → false;
 empty formula → blank inspector; unmatched `(` → formula error.
 
 ## Git

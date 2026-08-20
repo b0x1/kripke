@@ -64,8 +64,13 @@ export function inspectFormula(
 
   const refuted = checkInference(premises, not(parsed.formula), defaultCheckOptions);
   if (refuted.status === "correct" || oppositeIds.length > 0) {
+    const needed = neededPremiseIds(premiseRows, not(parsed.formula));
     const contradicts =
-      oppositeIds.length > 0 ? oppositeIds : bases;
+      oppositeIds.length > 0
+        ? oppositeIds
+        : needed.length > 0
+          ? needed
+          : bases;
     return {
       parseError: null,
       result: {
@@ -101,6 +106,64 @@ export function inspectFormula(
       model: follows.model,
     },
   };
+}
+
+/** Judge every row. Later rows that contradict the ones above are false and are not used as premises. */
+export function inspectSheet(rows: OtherClaim[]): Map<string, FormulaLook> {
+  const core: OtherClaim[] = [];
+  for (const row of rows) {
+    const parsed = parse(row.formula.trim());
+    if (!parsed.ok) {
+      continue;
+    }
+    const premises = formulasOf(core);
+    const refuted = checkInference(
+      premises,
+      not(parsed.formula),
+      defaultCheckOptions,
+    );
+    if (refuted.status !== "correct") {
+      core.push(row);
+    }
+  }
+  const out = new Map<string, FormulaLook>();
+  for (const row of rows) {
+    out.set(
+      row.id,
+      inspectFormula(
+        row.formula,
+        core.filter((other) => other.id !== row.id),
+      ),
+    );
+  }
+  return out;
+}
+
+function formulasOf(rows: OtherClaim[]): Formula[] {
+  const out: Formula[] = [];
+  for (const row of rows) {
+    const parsed = parse(row.formula.trim());
+    if (parsed.ok) {
+      out.push(nnf(parsed.formula));
+    }
+  }
+  return out;
+}
+
+/** Premises that cannot be dropped without losing the entailment. */
+function neededPremiseIds(
+  rows: { id: string; formula: Formula }[],
+  conclusion: Formula,
+): string[] {
+  const needed: string[] = [];
+  for (const row of rows) {
+    const rest = rows.filter((other) => other.id !== row.id).map((other) => other.formula);
+    const without = checkInference(rest, conclusion, defaultCheckOptions);
+    if (without.status !== "correct") {
+      needed.push(row.id);
+    }
+  }
+  return needed;
 }
 
 function dropComplementaryPairs(
