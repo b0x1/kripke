@@ -31,7 +31,7 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
           {statements.map((s) => {
             const others = statements
               .filter((row) => row.id !== s.id)
-              .map((row) => row.formula);
+              .map((row) => ({ id: row.id, formula: row.formula }));
             const look = inspectFormula(s.formula, others);
             return (
               <tr key={s.id}>

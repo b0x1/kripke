@@ -50,7 +50,7 @@ header {
 
 .propositions {
   display: grid;
-  grid-template-columns: 4rem 3fr 1fr 1fr 6.5rem;
+  grid-template-columns: 4rem 5fr 4fr 1fr 6.5rem;
   width: 100%;
 }
 
@@ -171,10 +171,10 @@ header {
   color: #333;
 }
 
-.inspector-note {
-  font-size: 0.85rem;
+.inspector-contradicts {
+  font-size: 0.8rem;
   font-weight: normal;
-  white-space: normal;
+  margin-top: 0.2rem;
 }
 
 .formula-error {

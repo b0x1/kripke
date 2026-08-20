@@ -31,7 +31,9 @@ export function HowItWorks({ onBack }: Props) {
           checker fills the inspector ({verdictView.correct.emoji}{" "}
           {verdictView.correct.label}, {verdictView.false.emoji}{" "}
           {verdictView.false.label}, {verdictView.incomplete.emoji}{" "}
-          {verdictView.incomplete.label}) plus extra notes. Each row is judged
+          {verdictView.incomplete.label}). Hover the inspector for extra notes.
+          If the claim is false, the cell names the statement it contradicts.
+          Each row is judged
           against the other propositions. Stub: a formula that does not follow
           is incomplete; <code>{syllogism[2].formula}</code> is valid when the
           Socrates premises are present; <code>{mockFalseRows[0].formula}</code>{" "}
@@ -54,7 +56,8 @@ export function HowItWorks({ onBack }: Props) {
         </li>
         <li>
           <strong>{verdictView.false.label}</strong> ({verdictView.false.emoji} red)
-          — the other propositions rule it out.
+          — the other propositions rule it out. The cell names the contradicted
+          statement.
         </li>
         <li>
           <strong>{verdictView.incomplete.label}</strong> (

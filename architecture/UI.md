@@ -8,7 +8,7 @@ Mockup workbench: one table, one row per proposition.
 Id | Natural language | Formula | Inspector
 ```
 
-Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts) plus `CheckResult.notes` from the checker. Checker adds info by pushing strings onto `notes` ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions. Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Stub: does not follow → incomplete; `Mortal(socrates)` valid when Socrates premises present; `¬Mortal(socrates)` then false (ASCII `not` / `~` count); `false` → false; `?` → incomplete; unmatched `(` `)` → formula error. No inference pane.
+Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts). `CheckResult.notes` are a tooltip. If false, the cell lists `contradicts` ids ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions. Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Stub: does not follow → incomplete; `Mortal(socrates)` valid when Socrates premises present; `¬Mortal(socrates)` then false and names the contradicted row (ASCII `not` / `~` count); `false` → false; `?` → incomplete; unmatched `(` `)` → formula error. No inference pane. Columns NL:formula:inspector = 5:4:1.
 
 Target below is **after** mockup sign-off.
 
@@ -36,7 +36,7 @@ Natural language is never parsed. Empty formula → blank inspector.
 
 ### Inspector
 
-On the proposition row. Later: extra notes, tableau/countermodel text in `CheckResult.notes`. No separate `VerdictPane`.
+On the proposition row. Notes = tooltip. False → show contradicted statement ids. Later: tableau/countermodel in the tooltip. No separate `VerdictPane`.
 
 ### LogicBar
 

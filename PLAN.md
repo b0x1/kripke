@@ -15,7 +15,7 @@ Done:
 - Seeded mock rows (P1 P2 incomplete; P3 valid from them; P4 `¬Mortal(socrates)` false)
 - How it works (in-app)
 
-Stub: no formula → blank inspector; unmatched `(`/`)` → error in formula column; does not follow from others → incomplete; Socrates conclusion valid when premises present; `¬Mortal(socrates)` then false; ASCII keywords (`not`, `and`, `forall`, …) same as Unicode; `false` → false; `?` → incomplete. Incomplete → Postulate checkbox, greys inspector. Extra checker text = `CheckResult.notes`. Formula syntax highlight (bold + color).
+Stub: no formula → blank inspector; unmatched `(`/`)` → error in formula column; does not follow from others → incomplete; Socrates conclusion valid when premises present; `¬Mortal(socrates)` then false and names the contradicted row; ASCII keywords (`not`, `and`, `forall`, …) same as Unicode; `false` → false; `?` → incomplete. Incomplete → Postulate checkbox, greys inspector. `CheckResult.notes` = tooltip. Formula syntax highlight (bold + color). Columns 5:4:1.
 
 Out of this iteration: real parser, tableau, palette, persistence, examples, CSS tokens.
 

@@ -8,7 +8,7 @@ FOML is undecidable. Bounds are part of the spec: exhausting a bound is **incomp
 
 | File | Role |
 | --- | --- |
-| `src/engine/checkTypes.ts` | `CheckResult` (`status` + `notes`) |
+| `src/engine/checkTypes.ts` | `CheckResult` (`status`, tooltip `notes`, `contradicts` ids) |
 | `src/engine/ast.ts` | Formula / term AST, signature helpers |
 | `src/engine/parse.ts` | Recursive-descent parser |
 | `src/engine/pretty.ts` | Unicode pretty-printer with safe parentheses |

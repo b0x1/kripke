@@ -8,6 +8,11 @@ export type FormulaLook = {
   result: CheckResult | null;
 };
 
+export type OtherClaim = {
+  id: string;
+  formula: string;
+};
+
 const man = syllogism[0].formula;
 const menMortal = syllogism[1].formula;
 const socratesMortal = syllogism[2].formula;
@@ -15,7 +20,7 @@ const socratesNotMortal = mockFalseRows[0].formula;
 
 export function inspectFormula(
   formula: string,
-  otherFormulas: string[] = [],
+  others: OtherClaim[] = [],
 ): FormulaLook {
   const text = formula.trim();
   if (text === "") {
@@ -25,10 +30,10 @@ export function inspectFormula(
   if (!parsed.ok) {
     return { parseError: parsed.message, result: null };
   }
-  return { parseError: null, result: stubCheckFormula(text, otherFormulas) };
+  return { parseError: null, result: stubCheckFormula(text, others) };
 }
 
-function stubCheckFormula(text: string, otherFormulas: string[]): CheckResult {
+function stubCheckFormula(text: string, others: OtherClaim[]): CheckResult {
   if (text === "?") {
     return {
       status: "incomplete",
@@ -42,14 +47,23 @@ function stubCheckFormula(text: string, otherFormulas: string[]): CheckResult {
     };
   }
 
-  const others = new Set(
-    otherFormulas.map((formula) => canonicalFormula(formula)).filter(Boolean),
-  );
-  const hasSyllogismPremises =
-    others.has(canonicalFormula(man)) && others.has(canonicalFormula(menMortal));
   const canon = canonicalFormula(text);
+  const mortal = canonicalFormula(socratesMortal);
+  const notMortal = canonicalFormula(socratesNotMortal);
+  const manCanon = canonicalFormula(man);
+  const menCanon = canonicalFormula(menMortal);
 
-  if (canon === canonicalFormula(socratesMortal) && hasSyllogismPremises) {
+  const named = others
+    .map((row) => ({ id: row.id, canon: canonicalFormula(row.formula) }))
+    .filter((row) => row.canon !== "");
+  const otherSet = new Set(named.map((row) => row.canon));
+  const hasSyllogismPremises = otherSet.has(manCanon) && otherSet.has(menCanon);
+  const opposite = canon === mortal ? notMortal : canon === notMortal ? mortal : null;
+  const oppositeIds = opposite
+    ? named.filter((row) => row.canon === opposite).map((row) => row.id)
+    : [];
+
+  if (canon === mortal && hasSyllogismPremises) {
     return {
       status: "correct",
       notes: [
@@ -60,13 +74,22 @@ function stubCheckFormula(text: string, otherFormulas: string[]): CheckResult {
     };
   }
 
-  if (canon === canonicalFormula(socratesNotMortal) && hasSyllogismPremises) {
+  if (oppositeIds.length > 0) {
     return {
       status: "false",
-      notes: [
-        "contradicts the other propositions",
-        "stub: engine not wired",
-      ],
+      notes: ["contradicts another proposition", "stub: engine not wired"],
+      contradicts: oppositeIds,
+    };
+  }
+
+  if (canon === notMortal && hasSyllogismPremises) {
+    const premiseIds = named
+      .filter((row) => row.canon === manCanon || row.canon === menCanon)
+      .map((row) => row.id);
+    return {
+      status: "false",
+      notes: ["contradicts the other propositions", "stub: engine not wired"],
+      contradicts: premiseIds,
     };
   }
 

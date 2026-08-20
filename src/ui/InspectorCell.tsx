@@ -10,16 +10,16 @@ export function InspectorView({ result }: ViewProps) {
     return null;
   }
   const view = verdictView[result.status];
+  const contradict =
+    result.status === "false" && result.contradicts && result.contradicts.length > 0
+      ? `contradicts ${result.contradicts.join(", ")}`
+      : null;
   return (
     <div className={`inspector ${view.className}`}>
       <div>
         {view.emoji} {view.label}
       </div>
-      {result.notes.map((note) => (
-        <div key={note} className="inspector-note">
-          {note}
-        </div>
-      ))}
+      {contradict ? <div className="inspector-contradicts">{contradict}</div> : null}
     </div>
   );
 }
@@ -43,9 +43,13 @@ export function InspectorCell({
     : result
       ? `inspector ${verdictView[result.status].className}`
       : "inspector";
+  const tip =
+    !postulate && result && result.notes.length > 0
+      ? result.notes.join("\n")
+      : undefined;
 
   return (
-    <td className={className}>
+    <td className={className} title={tip}>
       {postulate ? <div>postulate</div> : <InspectorView result={result} />}
       {offerPostulate ? (
         <label className="postulate-toggle">

@@ -11,7 +11,7 @@ pnpm install && pnpm dev
 1. Numbered statements in natural language (e.g. `P1 Socrates is a man`).
 2. You formalize each in FOML. The app does not translate natural language.
 3. Assumed logic: system **D**, **constant** domain, rigid designators.
-4. Inspector: **valid**, **false**, or **incomplete** (blank if no formula). Incomplete rows can be marked as **postulates** (assumed, not judged).
+4. Inspector: **valid**, **false**, or **incomplete** (blank if no formula). Notes are a tooltip. False names the contradicted statement. Incomplete rows can be marked as **postulates** (assumed, not judged).
 
 ```mermaid
 flowchart LR
@@ -25,7 +25,7 @@ flowchart LR
 ## Verdicts
 
 - **Valid**: follows from the other propositions (later: tableau closes).
-- **False**: the other propositions rule it out (later: countermodel).
+- **False**: the other propositions rule it out (later: countermodel). The inspector names the contradicted statement.
 - **Incomplete**: does not follow from the others, and is not ruled out (later: also search bound). Empty formula: inspector blank, not incomplete. Mark as a **postulate** to assume it; inspector greys out; it remains a premise for other rows.
 
 ## Stack
