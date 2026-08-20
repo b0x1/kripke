@@ -36,7 +36,7 @@ Vite, React, TypeScript, in-browser tableau. pnpm only. Versions and extra tooli
 README.md, AGENTS.md, SKILLS.md, PLAN.md, package.json, pnpm-lock.yaml, vite.config.ts, tsconfig.json, eslint.config.js, index.html
 architecture/
 src/main.tsx, src/App.tsx, src/styles.css
-src/engine/{ast,parse,pretty,tableau,frames,countermodel,check}.ts
+src/engine/{ast,parse,pretty,tableau,frames,countermodel,check,inspect}.ts
 src/ui/{StatementList,FormulaField,LogicBar,HowItWorks,InspectorCell,Cheatsheet,Examples,KripkeView,TableauView}.tsx
 src/examples/*.ts
 src/engine/*.test.ts

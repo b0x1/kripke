@@ -34,11 +34,10 @@ export function HowItWorks({ onBack }: Props) {
           {verdictView.incomplete.label}). Hover the inspector for extra notes.
           If the claim is false, the cell names the statement it contradicts.
           Each row is judged
-          against the other propositions. Stub: a formula that does not follow
+          against the other propositions. A formula that does not follow
           is incomplete; <code>{syllogism[2].formula}</code> is valid when the
           Socrates premises are present; <code>{mockFalseRows[0].formula}</code>{" "}
-          is then false. Type <code>false</code> for false, <code>?</code> for
-          incomplete, unmatched parentheses for a formula error. Type ASCII
+          is then false. Type ASCII
           keywords (<code>not</code>, <code>and</code>, <code>or</code>,{" "}
           <code>forall</code>, <code>exists</code>, <code>nec</code>,{" "}
           <code>pos</code>, <code>Ax</code>) or Unicode; keywords are bold and
@@ -66,8 +65,9 @@ export function HowItWorks({ onBack }: Props) {
         </li>
       </ul>
       <p>
-        This mockup does not run a real prover yet. See stub rules under The
-        loop.
+        The inspector runs a prefixed tableau (system D, constant domain). Hover
+        for extra notes. If search hits a bound, the verdict is incomplete, not
+        false.
       </p>
 
       <h2>Assumed logic</h2>

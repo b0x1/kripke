@@ -1,14 +1,14 @@
 # UI
 
-**Iteration 1:** mockup only. Scope in [PLAN.md](../PLAN.md). No theme, no palette, no persistence, no real prover. Stub Check ok.
+**Iteration 1 mockup signed off.** Engine is live: [`src/engine/inspect.ts`](../src/engine/inspect.ts) parses and calls [`checkInference`](../src/engine/check.ts). No stub Check.
 
-Mockup workbench: one table, one row per proposition.
+Workbench: one table, one row per proposition.
 
 ```
 Id | Natural language | Formula | Inspector
 ```
 
-Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts). `CheckResult.notes` are a tooltip. If false, the cell lists `contradicts` ids ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions. Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Stub: does not follow → incomplete; `Mortal(socrates)` valid when Socrates premises present; `¬Mortal(socrates)` then false and names the contradicted row (ASCII `not` / `~` count); `false` → false; `?` → incomplete; unmatched `(` `)` → formula error. No inference pane. Columns NL:formula:inspector = 5:4:1.
+Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts). `CheckResult.notes` are a tooltip. If false, the cell lists `contradicts` ids ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions (complements dropped so a false row does not explode the rest). Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Parse + tableau: unmatched `(` `)` → formula error. No inference pane. Columns NL:formula:inspector = 5:4:1.
 
 Target below is **after** mockup sign-off.
 

@@ -2,7 +2,7 @@
 
 Read [README.md](README.md), then [`architecture/`](architecture/README.md). Build order: [PLAN.md](PLAN.md). Extend: [SKILLS.md](SKILLS.md). Spec change → update spec same change.
 
-Iteration 1 (mockup): stub Check allowed. After sign-off: no fake engine.
+Iteration 1 mockup signed off. No fake engine. Tableau in `src/engine/`.
 
 ## Principles
 

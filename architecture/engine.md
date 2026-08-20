@@ -136,6 +136,6 @@ Vitest in `src/engine/*.test.ts` is part of the build, not optional.
 | `◇□P ⊢ □P` | correct in S5, not in K |
 | Barcan formula | correct on constant domains, false on varying |
 | `a = b ⊢ □(a = b)` | correct |
-| `□∃x P(x)` vs `∃x □P(x)` | not equivalent; each ⊬ the other in K |
+| `□∃x P(x)` vs `∃x □P(x)` | not equivalent; dicto ⊬ re in K; re ⊬ dicto on varying |
 | Search bound on a hard open problem | incomplete, not false |
 | Parse of `Ax Man(x) -> Mortal(x)` vs parenthesized syllogism | different ASTs |

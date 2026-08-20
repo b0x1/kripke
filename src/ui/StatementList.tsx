@@ -1,4 +1,4 @@
-import { inspectFormula } from "../engine/stubInspect";
+import { inspectFormula } from "../engine/inspect";
 import { FormulaField } from "./FormulaField";
 import { InspectorCell } from "./InspectorCell";
 import type { Statement } from "./types";
