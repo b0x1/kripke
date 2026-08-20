@@ -24,6 +24,8 @@ type FieldProps = {
   onChange: (value: string) => void;
   invalid?: boolean;
   "aria-label": string;
+  "aria-describedby"?: string;
+  placeholder?: string;
 };
 
 export function FormulaField({
@@ -31,6 +33,8 @@ export function FormulaField({
   onChange,
   invalid,
   "aria-label": ariaLabel,
+  "aria-describedby": ariaDescribedBy,
+  placeholder,
 }: FieldProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -56,7 +60,9 @@ export function FormulaField({
       ref={ref}
       role="textbox"
       aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
       aria-invalid={invalid ? true : undefined}
+      data-placeholder={placeholder}
       contentEditable
       suppressContentEditableWarning
       spellCheck={false}

@@ -45,6 +45,7 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
                       onChange(s.id, { naturalLanguage: e.target.value })
                     }
                     aria-label={`${s.id} natural language`}
+                    placeholder="Natural language claim"
                   />
                 </td>
                 <td>
@@ -53,9 +54,15 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
                     onChange={(formula) => onChange(s.id, { formula })}
                     invalid={Boolean(look.parseError)}
                     aria-label={`${s.id} formula`}
+                    aria-describedby={
+                      look.parseError ? `${s.id}-formula-error` : undefined
+                    }
+                    placeholder="e.g. P -> Q"
                   />
                   {look.parseError ? (
-                    <p className="formula-error">{look.parseError}</p>
+                    <p id={`${s.id}-formula-error`} className="formula-error">
+                      {look.parseError}
+                    </p>
                   ) : null}
                 </td>
                 <InspectorCell
