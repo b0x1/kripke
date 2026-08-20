@@ -1,4 +1,6 @@
 import type { CheckResult } from "../engine/checkTypes";
+import { KripkeGraph } from "./KripkeGraph";
+import { TableauView } from "./TableauView";
 import { verdictView } from "./verdictView";
 
 type ViewProps = {
@@ -91,6 +93,14 @@ export function InspectorCell({
           />{" "}
           Claim
         </label>
+      ) : null}
+
+      {!postulate && result?.proof ? (
+        <TableauView tree={result.proof} />
+      ) : null}
+
+      {!postulate && result?.model ? (
+        <KripkeGraph model={result.model} />
       ) : null}
     </td>
   );

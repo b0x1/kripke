@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { type FormulaToken, tokenizeFormula } from "../engine/formulaText";
+import { FormulaPalette } from "./FormulaPalette";
 
 type PrettyProps = {
   text: string;
@@ -24,6 +25,7 @@ type FieldProps = {
   onChange: (value: string) => void;
   invalid?: boolean;
   "aria-label": string;
+  showPalette?: boolean;
 };
 
 export function FormulaField({
@@ -31,6 +33,7 @@ export function FormulaField({
   onChange,
   invalid,
   "aria-label": ariaLabel,
+  showPalette = true,
 }: FieldProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -51,47 +54,70 @@ export function FormulaField({
     }
   }, [value]);
 
+  function insertSymbol(symbol: string) {
+    const el = ref.current;
+    if (!el) {
+      onChange(value + symbol);
+      return;
+    }
+    const focused = document.activeElement === el;
+    const caret = focused ? caretOffset(el) : value.length;
+    const nextText = value.slice(0, caret) + symbol + value.slice(caret);
+    el.innerHTML = tokensToHtml(nextText);
+    const nextCaret = caret + symbol.length;
+    if (!focused) {
+      el.focus();
+    }
+    setCaretOffset(el, nextCaret);
+    onChange(nextText);
+  }
+
   return (
-    <div
-      ref={ref}
-      role="textbox"
-      aria-label={ariaLabel}
-      aria-invalid={invalid ? true : undefined}
-      contentEditable
-      suppressContentEditableWarning
-      spellCheck={false}
-      className="formula-input"
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
+    <div className="formula-field-container">
+      {showPalette ? (
+        <FormulaPalette onInsert={insertSymbol} />
+      ) : null}
+      <div
+        ref={ref}
+        role="textbox"
+        aria-label={ariaLabel}
+        aria-invalid={invalid ? true : undefined}
+        contentEditable
+        suppressContentEditableWarning
+        spellCheck={false}
+        className="formula-input"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
+        onPaste={(e) => {
           e.preventDefault();
-        }
-      }}
-      onPaste={(e) => {
-        e.preventDefault();
-        const el = ref.current;
-        if (!el) {
-          return;
-        }
-        const pasted = e.clipboardData.getData("text/plain").replace(/\n/g, "");
-        const caret = caretOffset(el);
-        const current = readText(el);
-        const text = current.slice(0, caret) + pasted + current.slice(caret);
-        el.innerHTML = tokensToHtml(text);
-        setCaretOffset(el, caret + pasted.length);
-        onChange(text);
-      }}
-      onInput={() => {
-        const el = ref.current;
-        if (!el) {
-          return;
-        }
-        const text = readText(el);
-        const caret = caretOffset(el);
-        el.innerHTML = tokensToHtml(text);
-        setCaretOffset(el, Math.min(caret, text.length));
-        onChange(text);
-      }}
-    />
+          const el = ref.current;
+          if (!el) {
+            return;
+          }
+          const pasted = e.clipboardData.getData("text/plain").replace(/\n/g, "");
+          const caret = caretOffset(el);
+          const current = readText(el);
+          const text = current.slice(0, caret) + pasted + current.slice(caret);
+          el.innerHTML = tokensToHtml(text);
+          setCaretOffset(el, caret + pasted.length);
+          onChange(text);
+        }}
+        onInput={() => {
+          const el = ref.current;
+          if (!el) {
+            return;
+          }
+          const text = readText(el);
+          const caret = caretOffset(el);
+          el.innerHTML = tokensToHtml(text);
+          setCaretOffset(el, Math.min(caret, text.length));
+          onChange(text);
+        }}
+      />
+    </div>
   );
 }
 
