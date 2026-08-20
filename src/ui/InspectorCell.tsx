@@ -10,18 +10,43 @@ export function InspectorView({ result }: ViewProps) {
     return null;
   }
   const view = verdictView[result.status];
-  const contradict =
-    result.status === "false" && result.contradicts && result.contradicts.length > 0
-      ? `contradicts ${result.contradicts.join(", ")}`
-      : null;
+  const extra = extraLine(result);
   return (
-    <div className={`inspector ${view.className}`}>
-      <div>
+    <div className="inspector-mark">
+      <div className="inspector-label">
         {view.emoji} {view.label}
       </div>
-      {contradict ? <div className="inspector-contradicts">{contradict}</div> : null}
+      {extra ? <div className={extra.className}>{extra.text}</div> : null}
     </div>
   );
+}
+
+function extraLine(
+  result: CheckResult,
+): { text: string; className: string } | null {
+  if (
+    result.status === "false" &&
+    result.contradicts &&
+    result.contradicts.length > 0
+  ) {
+    return {
+      text: `contradicts ${result.contradicts.join(", ")}`,
+      className: "inspector-contradicts",
+    };
+  }
+  if (result.status === "correct" && result.bases && result.bases.length > 0) {
+    return {
+      text: `from ${result.bases.join(", ")}`,
+      className: "inspector-bases",
+    };
+  }
+  if (result.status === "incomplete" && result.notes.length > 0) {
+    return {
+      text: result.notes.join(" · "),
+      className: "inspector-why",
+    };
+  }
+  return null;
 }
 
 type CellProps = {
@@ -38,19 +63,24 @@ export function InspectorCell({
   onPostulate,
 }: CellProps) {
   const offerPostulate = postulate || result?.status === "incomplete";
-  const className = postulate
-    ? "inspector inspector-postulate"
-    : result
-      ? `inspector ${verdictView[result.status].className}`
-      : "inspector";
-  const tip =
-    !postulate && result && result.notes.length > 0
-      ? result.notes.join("\n")
-      : undefined;
+  const className = [
+    "inspector",
+    postulate
+      ? "inspector-postulate"
+      : result
+        ? verdictView[result.status].className
+        : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <td className={className} title={tip}>
-      {postulate ? <div>postulate</div> : <InspectorView result={result} />}
+    <td className={className}>
+      {postulate ? (
+        <div className="inspector-label">postulate</div>
+      ) : (
+        <InspectorView result={result} />
+      )}
       {offerPostulate ? (
         <label className="postulate-toggle">
           <input

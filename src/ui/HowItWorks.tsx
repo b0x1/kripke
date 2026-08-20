@@ -31,8 +31,10 @@ export function HowItWorks({ onBack }: Props) {
           checker fills the inspector ({verdictView.correct.emoji}{" "}
           {verdictView.correct.label}, {verdictView.false.emoji}{" "}
           {verdictView.false.label}, {verdictView.incomplete.emoji}{" "}
-          {verdictView.incomplete.label}). Hover the inspector for extra notes.
-          If the claim is false, the cell names the statement it contradicts.
+          {verdictView.incomplete.label}). If valid, the cell names the statements
+          it follows from. If false, the cell names the statement it contradicts.
+          If incomplete, the cell says why (`not from` those statements, or
+          `search bound`).
           Each row is judged
           against the other propositions. A formula that does not follow
           is incomplete; <code>{syllogism[2].formula}</code> is valid when the
@@ -51,23 +53,24 @@ export function HowItWorks({ onBack }: Props) {
       <ul>
         <li>
           <strong>{verdictView.correct.label}</strong> ({verdictView.correct.emoji}{" "}
-          green) — the proposition follows from the other propositions.
+          oxblood) — the proposition follows from the other propositions. The
+          cell names those statements.
         </li>
         <li>
-          <strong>{verdictView.false.label}</strong> ({verdictView.false.emoji} red)
-          — the other propositions rule it out. The cell names the contradicted
-          statement.
+          <strong>{verdictView.false.label}</strong> ({verdictView.false.emoji}{" "}
+          vermillion) — the other propositions rule it out. The cell names the
+          contradicted statement.
         </li>
         <li>
           <strong>{verdictView.incomplete.label}</strong> (
-          {verdictView.incomplete.emoji} yellow) — it does not follow from the
-          other propositions, and they do not rule it out.
+          {verdictView.incomplete.emoji} amber) — it does not follow from the
+          other propositions, and they do not rule it out. The cell says
+          <code>not from</code> those statements, or <code>search bound</code>.
         </li>
       </ul>
       <p>
-        The inspector runs a prefixed tableau (system D, constant domain). Hover
-        for extra notes. If search hits a bound, the verdict is incomplete, not
-        false.
+        The inspector runs a prefixed tableau (system D, constant domain). If
+        search hits a bound, the verdict is incomplete, not false.
       </p>
 
       <h2>Assumed logic</h2>

@@ -30,10 +30,11 @@ export type Issue = {
   message: string;
 };
 
-/** Checker output. `notes` = tooltip. `contradicts` = statement ids shown when false. */
+/** Checker output. `notes` = short why when incomplete. `bases` / `contradicts` = statement ids in the cell. */
 export type CheckResult = {
   status: VerdictStatus;
   notes: string[];
+  bases?: string[];
   contradicts?: string[];
   proof?: TableauTree;
   model?: KripkeModel;

@@ -15,7 +15,7 @@ type Props = {
 
 export function StatementList({ statements, onChange, onAdd, onRemove }: Props) {
   return (
-    <section>
+    <section className="workbench">
       <h2>Propositions</h2>
       <table className="propositions">
         <thead>
@@ -63,9 +63,15 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
                   postulate={s.postulate}
                   onPostulate={(postulate) => onChange(s.id, { postulate })}
                 />
-                <td>
-                  <button type="button" onClick={() => onRemove(s.id)}>
-                    Remove
+                <td className="row-actions">
+                  <button
+                    type="button"
+                    className="row-remove"
+                    onClick={() => onRemove(s.id)}
+                    aria-label={`Remove ${s.id}`}
+                    title={`Remove ${s.id}`}
+                  >
+                    <TrashIcon />
                   </button>
                 </td>
               </tr>
@@ -77,5 +83,16 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
         Add proposition
       </button>
     </section>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M6.2 1h3.6l.7 1.2H14v1.3H2V2.2h3.5L6.2 1zm.3 1.2.4-.7h2.2l.4.7H6.5zM3.4 4.8h9.2l-.7 9.1A1.4 1.4 0 0 1 10.5 15H5.5a1.4 1.4 0 0 1-1.4-1.1L3.4 4.8zm2.4 1.6v6.4h1.2V6.4H5.8zm3.2 0v6.4h1.2V6.4H9z"
+      />
+    </svg>
   );
 }

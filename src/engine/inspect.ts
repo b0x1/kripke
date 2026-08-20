@@ -41,13 +41,13 @@ export function inspectFormula(
   const oppositeIds = named
     .filter((row) => formulasEqual(row.formula, opposite))
     .map((row) => row.id);
-  const rest = named
-    .filter(
-      (row) =>
-        !formulasEqual(row.formula, opposite) && !formulasEqual(row.formula, goal),
-    )
-    .map((row) => row.formula);
-  const premises = dropComplementaryPairs(rest);
+  const rest = named.filter(
+    (row) =>
+      !formulasEqual(row.formula, opposite) && !formulasEqual(row.formula, goal),
+  );
+  const premiseRows = dropComplementaryPairs(rest);
+  const premises = premiseRows.map((row) => row.formula);
+  const bases = premiseRows.map((row) => row.id);
 
   const follows = checkInference(premises, parsed.formula, defaultCheckOptions);
   if (follows.status === "correct") {
@@ -55,7 +55,8 @@ export function inspectFormula(
       parseError: null,
       result: {
         status: "correct",
-        notes: follows.notes,
+        notes: [],
+        bases,
         proof: follows.proof,
       },
     };
@@ -64,19 +65,12 @@ export function inspectFormula(
   const refuted = checkInference(premises, not(parsed.formula), defaultCheckOptions);
   if (refuted.status === "correct" || oppositeIds.length > 0) {
     const contradicts =
-      oppositeIds.length > 0
-        ? oppositeIds
-        : named
-            .filter((row) => premises.some((p) => formulasEqual(p, row.formula)))
-            .map((row) => row.id);
+      oppositeIds.length > 0 ? oppositeIds : bases;
     return {
       parseError: null,
       result: {
         status: "false",
-        notes:
-          refuted.status === "correct"
-            ? refuted.notes
-            : ["contradicts another proposition"],
+        notes: [],
         contradicts,
         proof: refuted.proof,
         model: follows.model,
@@ -99,26 +93,33 @@ export function inspectFormula(
     parseError: null,
     result: {
       status: "incomplete",
-      notes: ["does not follow from the other propositions"],
+      notes:
+        bases.length > 0
+          ? [`not from ${bases.join(", ")}`]
+          : ["does not follow"],
+      bases,
       model: follows.model,
     },
   };
 }
 
-function dropComplementaryPairs(formulas: Formula[]): Formula[] {
-  const kept: Formula[] = [];
+function dropComplementaryPairs(
+  rows: { id: string; formula: Formula }[],
+): { id: string; formula: Formula }[] {
+  const kept: { id: string; formula: Formula }[] = [];
   const skip = new Set<number>();
-  for (let i = 0; i < formulas.length; i += 1) {
+  for (let i = 0; i < rows.length; i += 1) {
     if (skip.has(i)) {
       continue;
     }
-    const left = formulas[i];
+    const left = rows[i];
     if (!left) {
       continue;
     }
-    const neg = nnf(not(left));
-    const j = formulas.findIndex(
-      (other, index) => index > i && !skip.has(index) && formulasEqual(other, neg),
+    const neg = nnf(not(left.formula));
+    const j = rows.findIndex(
+      (other, index) =>
+        index > i && !skip.has(index) && formulasEqual(other.formula, neg),
     );
     if (j >= 0) {
       skip.add(i);

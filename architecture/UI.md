@@ -1,6 +1,7 @@
 # UI
 
-**Iteration 1 mockup signed off.** Engine is live: [`src/engine/inspect.ts`](../src/engine/inspect.ts) parses and calls [`checkInference`](../src/engine/check.ts). No stub Check.
+**Iteration 1 mockup signed off.** Engine is live: [`src/engine/inspect.ts`](../src/engine/inspect.ts)
+parses and calls [`checkInference`](../src/engine/check.ts). No stub Check.
 
 Workbench: one table, one row per proposition.
 
@@ -8,11 +9,19 @@ Workbench: one table, one row per proposition.
 Id | Natural language | Formula | Inspector
 ```
 
-Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts). `CheckResult.notes` are a tooltip. If false, the cell lists `contradicts` ids ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions (complements dropped so a false row does not explode the rest). Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Parse + tableau: unmatched `(` `)` → formula error. No inference pane. Columns NL:formula:inspector = 5:4:1.
+Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column.
+Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts). Valid lists `bases` ids in the cell.
+False lists `contradicts` ids. Incomplete lists a short why in the cell (`not from` ids, or `search bound`).
+Each row is judged against the other propositions (complements dropped so a false row does not explode the rest).
+Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows.
+Parse + tableau: unmatched `(` `)` → formula error. No inference pane. Columns NL:formula:inspector = 5:4:1.
+Remove is a vermillion bin icon.
 
 Target below is **after** mockup sign-off.
 
-One workbench. Logic notebook: warm paper, ink, IBM Plex Sans + Serif, formulas IBM Plex Mono. Verdict accent only: oxblood correct, vermillion false, amber incomplete. No UI kit. No purple dashboard.
+One workbench. Logic notebook: warm paper, ink. System fonts only: sans UI, Palatino/Times serif, system mono formulas.
+No webfonts. Verdict accent only: oxblood correct, vermillion false, amber incomplete.
+No UI kit. No purple dashboard.
 
 `src/ui/` parses and shows `CheckResult`. No tableau rules here. Tokens in `src/styles.css`.
 
@@ -26,9 +35,10 @@ Table row per claim:
 
 - Id `P1`, `P2`, … sequential, stable until delete
 - Natural language textarea
-- Formula field: ASCII keywords (`not`, `and`, `or`, `forall`, `exists`, `nec`, `pos`, `Ax`) and Unicode; syntax highlight (bold + color) via [`formulaText.ts`](../src/engine/formulaText.ts)
+- Formula field: ASCII keywords (`not`, `and`, `or`, `forall`, `exists`, `nec`, `pos`, `Ax`) and Unicode;
+  syntax highlight (bold + color) via [`formulaText.ts`](../src/engine/formulaText.ts)
 - Live parse: Unicode pretty on success, span + message on fail
-- Add / remove
+- Add / bin to remove
 
 Formula palette inserts `□ ◇ ∀ ∃ → ∧ ∨ ¬ =` into the focused formula field.
 
@@ -36,13 +46,15 @@ Natural language is never parsed. Empty formula → blank inspector.
 
 ### Inspector
 
-On the proposition row. Notes = tooltip. False → show contradicted statement ids. Later: tableau/countermodel in the tooltip. No separate `VerdictPane`.
+On the proposition row. Valid → `from` the `bases` ids. False → `contradicts` ids.
+Incomplete → short why (`not from` ids, or `search bound`). Later: tableau/countermodel. No separate `VerdictPane`.
 
 ### LogicBar
 
 Mockup: locked to system **D**, **constant** domain. In-app How it works (`HowItWorks`). No system/domain pickers.
 
-After sign-off, pickers may return. Target: K / T / D / B / S4 / S5, constant / varying. Change system or domain → cached verdicts become unchecked. Do not auto-recompute.
+After sign-off, pickers may return. Target: K / T / D / B / S4 / S5, constant / varying.
+Change system or domain → cached verdicts become unchecked. Do not auto-recompute.
 
 - Load example
 - Cheatsheet drawer

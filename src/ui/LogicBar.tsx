@@ -5,11 +5,11 @@ type Props = {
 
 export function LogicBar({ page, onPage }: Props) {
   return (
-    <header>
-      <strong>FOML</strong>
-      {" — "}
-      system D, constant domain
-      {" — "}
+    <header className="masthead">
+      <div>
+        <p className="wordmark">FOML</p>
+        <p className="logic-meta">system D · constant domain</p>
+      </div>
       {page === "workbench" ? (
         <button type="button" onClick={() => onPage("guide")}>
           How it works

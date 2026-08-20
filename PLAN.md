@@ -1,6 +1,7 @@
 # Plan
 
-Build order. Spec: [README.md](README.md), [`architecture/`](architecture/README.md). Agents: [AGENTS.md](AGENTS.md). UI target: [architecture/UI.md](architecture/UI.md).
+Build order. Spec: [README.md](README.md), [`architecture/`](architecture/README.md).
+Agents: [AGENTS.md](AGENTS.md). UI target: [architecture/UI.md](architecture/UI.md).
 
 ## Iteration 1 — mockup
 
@@ -16,4 +17,6 @@ Done:
 - Workbench inspector uses `inspect.ts` (parse + tableau). P1 P2 incomplete; P3 valid; P4 false and names P3
 - Engine tests in `src/engine/*.test.ts`
 
-Still later: notebook CSS, palette, persistence, examples, SVG Kripke, cheatsheet, collapsible tableau in the inspector.
+Done: notebook CSS (warm paper, system fonts, oxblood / vermillion / amber).
+
+Still later: palette, persistence, examples, SVG Kripke, cheatsheet, collapsible tableau in the inspector.

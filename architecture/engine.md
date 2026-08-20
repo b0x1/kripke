@@ -1,6 +1,9 @@
 # Tableau engine
 
-All logic lives under `src/engine/`. No React imports. Ground prefixed tableau (Fitting-style prefixes as worlds), iterative deepening. Not a free-variable unifier. Not a complete decision procedure. Same formulas, system, domain, and bounds → same status (prefix labels are not random).
+All logic lives under `src/engine/`. No React imports.
+Ground prefixed tableau (Fitting-style prefixes as worlds), iterative deepening.
+Not a free-variable unifier. Not a complete decision procedure.
+Same formulas, system, domain, and bounds → same status (prefix labels are not random).
 
 FOML is undecidable. Bounds are part of the spec: exhausting a bound is **incomplete**, never **false**.
 
@@ -8,7 +11,7 @@ FOML is undecidable. Bounds are part of the spec: exhausting a bound is **incomp
 
 | File | Role |
 | --- | --- |
-| `src/engine/checkTypes.ts` | `CheckResult` (`status`, tooltip `notes`, `contradicts` ids) |
+| `src/engine/checkTypes.ts` | `CheckResult` (`status`, `notes` why, `bases` / `contradicts` ids) |
 | `src/engine/ast.ts` | Formula / term AST, signature helpers |
 | `src/engine/parse.ts` | Recursive-descent parser |
 | `src/engine/pretty.ts` | Unicode pretty-printer with safe parentheses |
@@ -36,7 +39,9 @@ type CheckOptions = {
 
 type CheckResult = {
   status: Status
-  notes: string[]            // extra inspector lines; checker appends
+  notes: string[]            // inspect: short why when incomplete; empty for valid/false
+  bases?: string[]           // inspect: premise ids shown when valid
+  contradicts?: string[]     // inspect: ids shown when false
   proof?: TableauTree        // present when correct
   model?: KripkeModel        // present when false
   issues?: Issue[]           // present when incomplete, or warnings when correct
@@ -44,20 +49,23 @@ type CheckResult = {
 }
 ```
 
-The UI layer is responsible for mapping statement ids, missing formulas, and parse errors into **incomplete** before calling `checkInference`. The engine assumes well-formed formulas.
+The UI layer is responsible for mapping statement ids, missing formulas, and parse errors into **incomplete**
+before calling `checkInference`. The engine assumes well-formed formulas.
 
 Default options for the workbench: `system: "D"`, `domain: "constant"`, rigid designators.
 
 ## Prefixed tableau
 
-A prefix `σ` is a sequence of positive integers naming a world (`1`, `1.1`, `1.2`, `1.1.1`, …). Signed formulas (or NNF plus a truth polarity) sit at a prefix.
+A prefix `σ` is a sequence of positive integers naming a world (`1`, `1.1`, `1.2`, `1.1.1`, …).
+Signed formulas (or NNF plus a truth polarity) sit at a prefix.
 
 Start from prefix `1`:
 
 - `T` each premise at `1`
 - `F` the conclusion at `1` (equivalently `T ¬conclusion`)
 
-Close a branch when complementary literals occur at the same prefix, or when `t = t` is false, or when `t = s` and `t ≠ s` both hold (after congruence closure on identity).
+Close a branch when complementary literals occur at the same prefix, or when `t = t` is false,
+or when `t = s` and `t ≠ s` both hold (after congruence closure on identity).
 
 ### Propositional
 
@@ -66,14 +74,17 @@ Standard α / β rules for `∧ ∨ → ↔ ¬`.
 ### Modal (ν / π)
 
 - `σ T □φ` (ν): for every accessible `σ.n`, add `σ.n T φ`; also apply frame-specific extra copies
-- `σ T ◇φ` (π): create a fresh successor `σ.n` if the serial/possibility rule requires it, add accessibility `σ R σ.n`, add `σ.n T φ`
+- `σ T ◇φ` (π): create a fresh successor `σ.n` if the serial/possibility rule requires it,
+  add accessibility `σ R σ.n`, add `σ.n T φ`
 - Dual rules for `F □` / `F ◇`
 
-Accessibility is an explicit relation on prefixes. Frame rules add more accessibility edges or more formula copies, they do not rewrite prefixes.
+Accessibility is an explicit relation on prefixes.
+Frame rules add more accessibility edges or more formula copies, they do not rewrite prefixes.
 
 ### First-order (γ / δ)
 
-- γ (`∀` true / `∃` false): instantiate with every parameter that **exists at that world**. Repeat across γ-rounds up to `maxGammaRounds`.
+- γ (`∀` true / `∃` false): instantiate with every parameter that **exists at that world**.
+  Repeat across γ-rounds up to `maxGammaRounds`.
 - δ (`∃` true / `∀` false): introduce a fresh parameter that exists at that world.
 
 If the Herbrand universe is empty at a world, introduce one dummy parameter so γ can fire (empty-domain edge case).
@@ -87,7 +98,8 @@ If the Herbrand universe is empty at a world, introduce one dummy parameter so �
 ### Domains
 
 - **Constant**: every parameter exists at every world. Barcan `∀x □φ → □∀x φ` and converse Barcan hold.
-- **Varying**: existence is world-local. γ may only use parameters that exist at `σ`. Barcan / converse Barcan fail in general.
+- **Varying**: existence is world-local. γ may only use parameters that exist at `σ`.
+  Barcan / converse Barcan fail in general.
 
 ## Frame conditions
 
@@ -107,7 +119,8 @@ S4 = T + 4. S5 = T + 5 (implement 5 or B+4, not both ad hoc). Default UI system 
 Stop when:
 
 1. Every branch closed → **correct**, return the tableau tree
-2. An open branch is saturated (no rule produces a new formula, new prefix within depth, or new unused γ instance) → **false**, extract a model
+2. An open branch is saturated (no rule produces a new formula, new prefix within depth, or new unused γ instance)
+   → **false**, extract a model
 3. `maxPrefixDepth`, `maxGammaRounds`, or `maxNodes` is hit on an unclosed unsaturated branch → **incomplete**
 
 Never report **false** merely because search stopped.
