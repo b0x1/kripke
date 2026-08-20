@@ -1,7 +1,7 @@
-# FOML
+# Kripke
 
-Client-side workbench for checking arguments in first-order modal logic.
-You write claims in natural language, formalize them yourself, and the inspector judges each proposition.
+Reasoning tool for debate bros. FOML workbench under the hood.
+You write claims in natural language, formalize them yourself, and the inspector says whether each one follows.
 
 ```bash
 pnpm install && pnpm dev
@@ -15,7 +15,7 @@ pnpm install && pnpm dev
 4. Inspector: **valid**, **false**, or **incomplete** (blank if no formula).
    Valid names the base statements. False names the contradicted statement.
    Incomplete names why (`not from` those statements, or `search bound`).
-   Incomplete rows can be marked as **postulates** (assumed, not judged).
+   Incomplete rows can be marked as a **claim** (a postulate that needs no proof).
 
 ```mermaid
 flowchart LR
@@ -33,7 +33,7 @@ flowchart LR
 - **Incomplete**: does not follow from the others, and is not ruled out.
   The inspector says `not from` those statements, or `search bound` if the checker stopped.
   Empty formula: inspector blank, not incomplete.
-  Mark as a **postulate** to assume it; inspector greys out; it remains a premise for other rows.
+  Mark as a **claim** (postulate: needs no proof); inspector greys out; it remains a premise for other rows.
 
 ## Stack
 

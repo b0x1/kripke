@@ -48,7 +48,12 @@ export function SyntaxSection() {
   return (
     <section>
       <h2>Syntax</h2>
-      <p>Type ASCII in the formula field. Unicode is also accepted.</p>
+      <p>
+        Type ASCII in the formula field. Unicode is also accepted. Words like{" "}
+        <code>not</code>, <code>and</code>, <code>or</code>, <code>forall</code>,{" "}
+        <code>exists</code>, <code>nec</code> (necessity), and <code>pos</code>{" "}
+        (possibility) work. Keywords show up bold and colored.
+      </p>
       <h3>Language</h3>
       <ul>
         {languageIncludes.map((item) => (
@@ -57,8 +62,10 @@ export function SyntaxSection() {
       </ul>
       <p>Not included: {languageExcludes.join(", ")}.</p>
       <h3>Modal operators</h3>
+      <p>Necessity (must) and possibility (might).</p>
       <Rows rows={modalOps} aliases />
       <h3>Quantifiers</h3>
+      <p>Universal (for every) and existential (for some).</p>
       <Rows rows={quantifiers} aliases />
       <h3>Connectives and identity</h3>
       <Rows rows={connectives} aliases={false} />
@@ -78,9 +85,14 @@ export function SyntaxSection() {
       </ul>
       <p>{scopeNote}</p>
       <h3>De re vs de dicto</h3>
+      <p>
+        De dicto applies the modal operator to a whole sentence. De re applies
+        it to an individual. The two are not equivalent.
+      </p>
       <ul>
         <li>
-          De dicto: <FormulaView text={deReDeDicto.dicto} /> — {deReDeDicto.dictoGloss}
+          De dicto: <FormulaView text={deReDeDicto.dicto} /> —{" "}
+          {deReDeDicto.dictoGloss}
         </li>
         <li>
           De re: <FormulaView text={deReDeDicto.re} /> — {deReDeDicto.reGloss}
@@ -108,7 +120,7 @@ export function SyntaxSection() {
         </tbody>
       </table>
       <p>
-        P1, P2 ⊢ P3 is correct in every modal system (no modal operators fire).
+        P1, P2 ⊢ P3 is valid in every modal system; no modal operator is used.
       </p>
     </section>
   );

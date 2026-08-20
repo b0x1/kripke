@@ -77,7 +77,7 @@ export function InspectorCell({
   return (
     <td className={className}>
       {postulate ? (
-        <div className="inspector-label">postulate</div>
+        <div className="inspector-label">claim</div>
       ) : (
         <InspectorView result={result} />
       )}
@@ -87,9 +87,9 @@ export function InspectorCell({
             type="checkbox"
             checked={postulate}
             onChange={(e) => onPostulate(e.target.checked)}
-            aria-label={`${id} postulate`}
+            aria-label={`${id} claim`}
           />{" "}
-          Postulate
+          Claim
         </label>
       ) : null}
     </td>

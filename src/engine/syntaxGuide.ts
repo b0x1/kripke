@@ -6,25 +6,30 @@ export type SyntaxRow = {
 };
 
 export const languageIncludes: string[] = [
-  "Predicates of any arity, including 0-ary (propositional atoms)",
-  "Individual constants and variables",
+  "Predicates of any arity, including 0-ary (bare P, Mortal)",
+  "Individual constants and variables (socrates, x)",
   "Identity =",
-  "Connectives ¬ ∧ ∨ → ↔",
-  "Quantifiers ∀ ∃",
-  "Modal operators □ ◇",
+  "Connectives ¬ ∧ ∨ → ↔ (not, and, or, if, iff)",
+  "Quantifiers ∀ ∃ (for all, there is)",
+  "Modal operators □ ◇ (necessity, possibility)",
 ];
 
-export const languageExcludes: string[] = ["Function symbols"];
+export const languageExcludes: string[] = ["Function symbols (no father-of(x))"];
 
 export const modalOps: SyntaxRow[] = [
-  { meaning: "Necessity", ascii: "[]P", alias: "nec P", unicode: "□P" },
-  { meaning: "Possibility", ascii: "<>P", alias: "pos P", unicode: "◇P" },
+  { meaning: "Necessity (must)", ascii: "[]P", alias: "nec P", unicode: "□P" },
+  { meaning: "Possibility (might)", ascii: "<>P", alias: "pos P", unicode: "◇P" },
 ];
 
 export const quantifiers: SyntaxRow[] = [
-  { meaning: "Universal", ascii: "Ax P", alias: "forall x P", unicode: "∀x P" },
   {
-    meaning: "Existential",
+    meaning: "Universal (for every)",
+    ascii: "Ax P",
+    alias: "forall x P",
+    unicode: "∀x P",
+  },
+  {
+    meaning: "Existential (for some)",
     ascii: "Ex P",
     alias: "exists x P",
     unicode: "∃x P",
@@ -32,12 +37,12 @@ export const quantifiers: SyntaxRow[] = [
 ];
 
 export const connectives: SyntaxRow[] = [
-  { meaning: "Negation", ascii: "~ or not", alias: "", unicode: "¬" },
-  { meaning: "Conjunction", ascii: "& or and", alias: "", unicode: "∧" },
-  { meaning: "Disjunction", ascii: "| or or", alias: "", unicode: "∨" },
-  { meaning: "Implication", ascii: "->", alias: "", unicode: "→" },
-  { meaning: "Biconditional", ascii: "<->", alias: "", unicode: "↔" },
-  { meaning: "Identity", ascii: "=", alias: "", unicode: "=" },
+  { meaning: "Negation (not)", ascii: "~ or not", alias: "", unicode: "¬" },
+  { meaning: "Conjunction (and)", ascii: "& or and", alias: "", unicode: "∧" },
+  { meaning: "Disjunction (or)", ascii: "| or or", alias: "", unicode: "∨" },
+  { meaning: "Implication (if-then)", ascii: "->", alias: "", unicode: "→" },
+  { meaning: "Biconditional (iff)", ascii: "<->", alias: "", unicode: "↔" },
+  { meaning: "Identity (is the same as)", ascii: "=", alias: "", unicode: "=" },
 ];
 
 /** Case-insensitive word spellings → Unicode. */
@@ -88,13 +93,13 @@ export const atomExamples: string[] = [
 ];
 
 export const scopeNote =
-  "∀x (Man(x) → Mortal(x)) is the syllogism premise. ∀x Man(x) → Mortal(x) parses as (∀x Man(x)) → Mortal(x).";
+  "∀x (Man(x) → Mortal(x)) is the syllogism premise. Without parentheses, ∀x Man(x) → Mortal(x) parses as (∀x Man(x)) → Mortal(x).";
 
 export const deReDeDicto = {
   dicto: "□∃x P(x)",
-  dictoGloss: "necessarily, something is P",
+  dictoGloss: "necessity of an existence claim: it must be that someone is P",
   re: "∃x □P(x)",
-  reGloss: "something is necessarily P",
+  reGloss: "existence of a necessary property: someone must be P",
 };
 
 export const syllogism = [

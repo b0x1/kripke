@@ -13,13 +13,16 @@ Inspector: blank if no formula or the formula does not parse. Parse errors show 
 Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts). Valid lists `bases` ids in the cell.
 False lists `contradicts` ids. Incomplete lists a short why in the cell (`not from` ids, or `search bound`).
 Each row is judged against the other propositions (complements dropped so a false row does not explode the rest).
-Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows.
+Incomplete → Claim checkbox (postulate: needs no proof); checked → grey inspector (`claim`), still a premise for other rows.
 Parse + tableau: unmatched `(` `)` → formula error. No inference pane. Columns NL:formula:inspector = 5:4:1.
 Remove is a vermillion bin icon.
 
 Target below is **after** mockup sign-off.
 
-One workbench. Logic notebook: warm paper, ink. System fonts only: sans UI, Palatino/Times serif, system mono formulas.
+One workbench. Product name: **Kripke** (possible-worlds semantics). Tagline: “reasoning tool for debate bros.”
+Audience: lycée / gymnasium, not professional logicians. Terms of art first; a short gloss in parentheses where useful.
+Do not slang, do not talk down.
+Logic notebook: warm paper, ink. System fonts only: sans UI, Palatino/Times serif, system mono formulas.
 No webfonts. Verdict accent only: oxblood correct, vermillion false, amber incomplete.
 No UI kit. No purple dashboard.
 
@@ -51,7 +54,8 @@ Incomplete → short why (`not from` ids, or `search bound`). Later: tableau/cou
 
 ### LogicBar
 
-Mockup: locked to system **D**, **constant** domain. In-app How it works (`HowItWorks`). No system/domain pickers.
+Mockup: locked to system **D**, **constant** domain. In-app How it works (`HowItWorks`) is plain English.
+No system/domain pickers. Header wordmark: Kripke. Nav: How it works / Your claims.
 
 After sign-off, pickers may return. Target: K / T / D / B / S4 / S5, constant / varying.
 Change system or domain → cached verdicts become unchecked. Do not auto-recompute.

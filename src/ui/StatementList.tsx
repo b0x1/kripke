@@ -16,7 +16,7 @@ type Props = {
 export function StatementList({ statements, onChange, onAdd, onRemove }: Props) {
   return (
     <section className="workbench">
-      <h2>Propositions</h2>
+      <h2>Claims</h2>
       <table className="propositions">
         <thead>
           <tr>
@@ -80,7 +80,7 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
         </tbody>
       </table>
       <button type="button" onClick={onAdd}>
-        Add proposition
+        Add a claim
       </button>
     </section>
   );
