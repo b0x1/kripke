@@ -18,6 +18,16 @@ Iteration 1 mockup signed off. No fake engine. Tableau in `src/engine/`.
   - no import cycles
 - pnpm only. No `npm` / `npx`. No `package-lock.json`.
 
+## Copyright
+
+Do not copy other people's copyrighted work into this project.
+That means code, prose, examples, and figures from books, papers, websites, or other software.
+Write original material.
+Public domain and CC0 material is allowed.
+If you include it, name the author in a comment or in the same file.
+Installing a package with pnpm is allowed.
+Do not paste that package's source into `src/` or the docs.
+
 ## Verify
 
 ```bash
