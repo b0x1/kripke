@@ -24,7 +24,7 @@ pnpm exec tsc --noEmit
 pnpm test
 ```
 
-Smoke (once code exists): Socrates → correct; affirming consequent → false + model; empty formula → incomplete; bound hit → incomplete.
+Smoke (once code exists): P1 P2 → incomplete; P3 → valid; P4 `¬Mortal(socrates)` → false; empty formula → blank inspector; unmatched `(` → formula error.
 
 ## Git
 
@@ -32,8 +32,8 @@ Commit only when asked. No secrets. No git config edits.
 
 ## Do not add
 
-- Markdown preview of English
-- Rename statement ids without updating inferences
+- Markdown preview of natural language
+- Rename statement ids that other rows still mention
 - Check-all on every keystroke
 - Sound on verdict
 - Purple / dark dashboard default

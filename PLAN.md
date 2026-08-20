@@ -8,15 +8,16 @@ See the loop. Then stop. User iterates before more work.
 
 Minimal. No fancy UI. Default system fonts, plain boxes, no notebook theme, no IBM Plex, no SVG, no cheatsheet, no examples, no localStorage.
 
-Ship:
+Done:
 
-- LogicBar: system + domain only
-- Statement cards: id, English, formula, add / remove
-- Inference pickers: multi-select premises, conclusion dropdown, Add
-- Inference rows: `P1, P2 ⊢ P3`, Check, remove
-- Inspector: after Check, a **stub** verdict (hardcoded or random placeholder: correct / false / incomplete). No tableau. No Kripke.
+- LogicBar: locked D, constant domain
+- Statement table: id, natural language, formula, inspector
+- Seeded mock rows (P1 P2 incomplete; P3 valid from them; P4 `¬Mortal(socrates)` false)
+- How it works (in-app)
 
-Out of this iteration: parser, tableau, live parse, formula palette, persistence, examples, CSS tokens.
+Stub: no formula → blank inspector; unmatched `(`/`)` → error in formula column; does not follow from others → incomplete; Socrates conclusion valid when premises present; `¬Mortal(socrates)` then false; `false` → false; `?` → incomplete. Incomplete → Postulate checkbox, greys inspector. Extra checker text = `CheckResult.notes`.
+
+Out of this iteration: real parser, tableau, palette, persistence, examples, CSS tokens.
 
 Stub Check is allowed here only. After sign-off, no fake engine.
 

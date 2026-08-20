@@ -8,6 +8,7 @@ FOML is undecidable. Bounds are part of the spec: exhausting a bound is **incomp
 
 | File | Role |
 | --- | --- |
+| `src/engine/checkTypes.ts` | `CheckResult` (`status` + `notes`) |
 | `src/engine/ast.ts` | Formula / term AST, signature helpers |
 | `src/engine/parse.ts` | Recursive-descent parser |
 | `src/engine/pretty.ts` | Unicode pretty-printer with safe parentheses |
@@ -35,6 +36,7 @@ type CheckOptions = {
 
 type CheckResult = {
   status: Status
+  notes: string[]            // extra inspector lines; checker appends
   proof?: TableauTree        // present when correct
   model?: KripkeModel        // present when false
   issues?: Issue[]           // present when incomplete, or warnings when correct
@@ -44,7 +46,7 @@ type CheckResult = {
 
 The UI layer is responsible for mapping statement ids, missing formulas, and parse errors into **incomplete** before calling `checkInference`. The engine assumes well-formed formulas.
 
-Default options for the workbench: `system: "S5"`, `domain: "constant"`, rigid designators.
+Default options for the workbench: `system: "D"`, `domain: "constant"`, rigid designators.
 
 ## Prefixed tableau
 
@@ -98,7 +100,7 @@ If the Herbrand universe is empty at a world, introduce one dummy parameter so �
 | S4 | T + transitive (4) | close accessibility under transitivity |
 | S5 | T + euclidean (5), equivalently T+B+4 | universal accessibility on the generated cluster |
 
-S4 = T + 4. S5 = T + 5 (implement 5 or B+4, not both ad hoc). Default UI system is S5.
+S4 = T + 4. S5 = T + 5 (implement 5 or B+4, not both ad hoc). Default UI system is D.
 
 ## Bounds and saturation
 
@@ -134,6 +136,6 @@ Vitest in `src/engine/*.test.ts` is part of the build, not optional.
 | `◇□P ⊢ □P` | correct in S5, not in K |
 | Barcan formula | correct on constant domains, false on varying |
 | `a = b ⊢ □(a = b)` | correct |
-| `[] Ex P(x)` vs `Ex [] P(x)` | not equivalent; each ⊬ the other in K |
+| `□∃x P(x)` vs `∃x □P(x)` | not equivalent; each ⊬ the other in K |
 | Search bound on a hard open problem | incomplete, not false |
 | Parse of `Ax Man(x) -> Mortal(x)` vs parenthesized syllogism | different ASTs |

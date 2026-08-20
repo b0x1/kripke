@@ -1,0 +1,118 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 1rem;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+main,
+aside {
+  flex: 1 1 20rem;
+}
+
+article,
+fieldset,
+aside {
+  border: 1px solid #888;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+textarea,
+input[type="text"],
+input:not([type]),
+select {
+  width: 100%;
+  max-width: 32rem;
+  box-sizing: border-box;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0.5rem 0 1rem;
+}
+
+th,
+td {
+  border: 1px solid #888;
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+}
+
+header {
+  margin-bottom: 1rem;
+}
+
+.propositions {
+  display: grid;
+  grid-template-columns: 4rem 3fr 1fr 1fr 6.5rem;
+  width: 100%;
+}
+
+.propositions thead,
+.propositions tbody,
+.propositions tr {
+  display: contents;
+}
+
+.propositions th,
+.propositions td {
+  min-width: 0;
+}
+
+.propositions textarea,
+.propositions input[type="text"],
+.propositions input:not([type]) {
+  width: 100%;
+  max-width: none;
+}
+
+.inspector {
+  text-align: center;
+}
+
+.inspector-correct {
+  background: #c8e6c9;
+}
+
+.inspector-false {
+  background: #ffcdd2;
+}
+
+.inspector-incomplete {
+  background: #fff9c4;
+}
+
+.inspector-postulate {
+  background: #e0e0e0;
+  color: #666;
+}
+
+.postulate-toggle {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: normal;
+  color: #333;
+}
+
+.inspector-note {
+  font-size: 0.85rem;
+  font-weight: normal;
+  white-space: normal;
+}
+
+.formula-error {
+  color: #b00020;
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+
+.guide {
+  max-width: 48rem;
+}

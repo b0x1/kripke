@@ -9,7 +9,7 @@ How to extend the system. Rules live in [README.md](README.md) and [`architectur
 3. Pretty-print in `src/engine/pretty.ts` so `parse(pretty(ast))` equals `ast`.
 4. Expansion in `src/engine/tableau.ts`. If the rule is not standard α/β, modal, or quantifier, update [architecture/engine.md](architecture/engine.md) first.
 5. Tests: ASCII, Unicode, round-trip; one correct and one false entailment.
-6. Palette glyph and cheatsheet row ([architecture/UI.md](architecture/UI.md), [architecture/syntax.md](architecture/syntax.md)).
+6. Palette glyph and cheatsheet row: add to [`src/engine/syntaxGuide.ts`](src/engine/syntaxGuide.ts) (How it works renders it).
 
 ## Add a modal system
 
@@ -24,7 +24,7 @@ Do not stack overlapping closures (e.g. both 5 and B+4) that disagree on when a 
 
 ## Add an example
 
-1. `src/examples/<id>.ts` in the export JSON shape: statements (`id`, `english`, `formula`), inferences (`premises`, `conclusion`), `system`, `domain`, `blurb`.
+1. `src/examples/<id>.ts` in the export JSON shape: statements (`id`, `naturalLanguage`, `formula`), `blurb`.
 2. Register in the `LogicBar` example index.
 3. Every formula must parse. Prefer the list in [architecture/UI.md](architecture/UI.md).
 4. Reuse or add the matching engine test so the demo cannot drift from the prover.

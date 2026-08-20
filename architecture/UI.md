@@ -2,106 +2,79 @@
 
 **Iteration 1:** mockup only. Scope in [PLAN.md](../PLAN.md). No theme, no palette, no persistence, no real prover. Stub Check ok.
 
+Mockup workbench: one table, one row per proposition.
+
+```
+Id | Natural language | Formula | Inspector
+```
+
+Inspector: blank if no formula or the formula does not parse. Parse errors show in the formula column. Else marks from [`src/ui/verdictView.ts`](../src/ui/verdictView.ts) plus `CheckResult.notes` from the checker. Checker adds info by pushing strings onto `notes` ([`src/engine/checkTypes.ts`](../src/engine/checkTypes.ts)). Each row is judged against the other propositions. Incomplete → Postulate checkbox; checked → grey inspector (`postulate`), still a premise for other rows. Stub: does not follow → incomplete; `Mortal(socrates)` valid when Socrates premises present; `¬Mortal(socrates)` then false; `false` → false; `?` → incomplete; unmatched `(` `)` → formula error. No inference pane.
+
 Target below is **after** mockup sign-off.
 
 One workbench. Logic notebook: warm paper, ink, IBM Plex Sans + Serif, formulas IBM Plex Mono. Verdict accent only: oxblood correct, vermillion false, amber incomplete. No UI kit. No purple dashboard.
 
-`src/ui/` parses, pretty-prints, calls `checkInference`. No tableau rules here. Tokens in `src/styles.css`.
+`src/ui/` parses and shows `CheckResult`. No tableau rules here. Tokens in `src/styles.css`.
 
 ## Layout (v1)
 
-Argument notebook. No DAG.
+One table. No DAG. No inference pane. Inspector is the last column of each proposition row.
 
-```
-┌──────────────────────────────────────────┬─────────────────┐
-│ LogicBar                                 │                 │
-├──────────────────────────────────────────┤ Inspector       │
-│ Statements (cards P1, P2, …)             │ (after Check:   │
-│ Inferences (pickers + rows)              │  verdict /      │
-│                                          │  tableau /      │
-│                                          │  Kripke)        │
-└──────────────────────────────────────────┴─────────────────┘
-```
+### Statements (`StatementList`)
 
-Wide: inspector on the right after the user Checks. Narrow: inspector below the argument. Before any Check: inspector empty state (short hint + cheatsheet link).
-
-### Statements (`StatementList`, `FormulaField`)
-
-Card per claim:
+Table row per claim:
 
 - Id `P1`, `P2`, … sequential, stable until delete
-- English textarea
+- Natural language textarea
 - Formula field
 - Live parse: Unicode pretty on success, span + message on fail
 - Add / remove
 
 Formula palette inserts `□ ◇ ∀ ∃ → ∧ ∨ ¬ =` into the focused formula field.
 
-English is never parsed. Empty formula → any inference using that id is **incomplete**.
+Natural language is never parsed. Empty formula → blank inspector.
 
-### Inferences (`InferenceList`)
+### Inspector
 
-Declare an entailment with **pickers**, not by typing ids:
-
-- Multi-select premises (existing statement ids)
-- Dropdown conclusion (existing statement id)
-- Add inference
-- Premise set must be non-empty. Conclusion must not be in the premise set.
-- Same premise-set + conclusion pair cannot be added twice.
-
-Each row: `P1, P2 ⊢ P3`, Check, last verdict chip, remove.
-
-**Check all** runs every row with current system and domain.
-
-Click a row to select it. Inspector shows that row’s last result.
-
-### Inspector (`VerdictPane`, `TableauView`, `KripkeView`)
-
-Selected inference, last Check:
-
-- **Correct**: short why, unused-premise warning if any, collapsible closed tableau
-- **False**: conclusion does not follow; SVG Kripke (worlds, accessibility, hover for atoms + domain)
-- **Incomplete**: blocker (empty formula, parse error, unknown id, which bound)
+On the proposition row. Later: extra notes, tableau/countermodel text in `CheckResult.notes`. No separate `VerdictPane`.
 
 ### LogicBar
 
-- System: K / T / D / B / S4 / S5 (default S5)
-- Domain: constant / varying (default constant)
+Mockup: locked to system **D**, **constant** domain. In-app How it works (`HowItWorks`). No system/domain pickers.
+
+After sign-off, pickers may return. Target: K / T / D / B / S4 / S5, constant / varying. Change system or domain → cached verdicts become unchecked. Do not auto-recompute.
+
 - Load example
 - Cheatsheet drawer
 - Import / export JSON
 
-Change system or domain → cached verdicts become unchecked. Do not auto-recompute.
-
 ## Persistence
 
-- `localStorage`: statements, inferences, system, domain. Not tableau trees.
+- `localStorage`: statements only for now. Not tableau trees.
 - Import / export JSON = `src/examples/*.ts` shape.
 
 One loader path for examples and import.
 
 ## Examples
 
-Already formalized. Each sets statements, inferences, system, domain, blurb.
+Already formalized proposition lists.
 
-1. Socrates syllogism — correct
+1. Socrates syllogism — valid
 2. Affirming the consequent — false
-3. Distribution of necessity `□(P→Q), □P ⊢ □Q` — correct in K
-4. `□P ⊢ P` — false in K; blurb: T makes it correct
-5. De dicto vs de re — two inferences, both fail if claimed equivalent
-6. Necessity of identity — `a = b ⊢ □(a = b)` correct
-7. Barcan — correct on constant; blurb: toggle varying
+3. Distribution of necessity `□(P→Q), □P ⊢ □Q` — valid in K
+4. `□P ⊢ P` — false in K; blurb: T makes it valid
+5. De dicto vs de re
+6. Necessity of identity — `a = b` and `□(a = b)`
+7. Barcan — valid on constant; blurb: toggle varying
 
 ## Cheatsheet
 
-- Connectives: [syntax.md](syntax.md)
-- De re vs de dicto: `[] Ex P(x)` vs `Ex [] P(x)`
+- Connectives, binders, de re / de dicto: [`src/engine/syntaxGuide.ts`](../src/engine/syntaxGuide.ts)
 - Frame assumptions per system
-- Incomplete = missing formalization vs bound
+- Incomplete = checker could not decide vs parse error in the formula column
 
 ## Interaction
 
-- Formula field: ASCII from [syntax.md](syntax.md). Palette optional.
-- Parse live. Tableau only on Check.
-- One selected inference in the inspector.
-- First visit: blank notebook, not auto-loaded example.
+- Formula field: ASCII from `syntaxGuide.ts`. Palette optional.
+- Parse and stub check live on each row.
+- First visit: seeded mock propositions.

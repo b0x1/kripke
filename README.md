@@ -1,6 +1,6 @@
 # FOML
 
-Client-side workbench for checking arguments in first-order modal logic. You write English claims, formalize them yourself, declare which claims entail which, and the app judges each deduction.
+Client-side workbench for checking arguments in first-order modal logic. You write claims in natural language, formalize them yourself, and the inspector judges each proposition.
 
 ```bash
 pnpm install && pnpm dev
@@ -8,27 +8,25 @@ pnpm install && pnpm dev
 
 ## Loop
 
-1. Numbered English statements (e.g. `P1 Socrates is a man`).
-2. You formalize each in FOML. The app does not translate English.
-3. Inferences (`P1, P2 ⊢ P3`).
-4. Modal system (default **S5**; also K, T, D, B, S4) and domain (default **constant**, rigid designators).
-5. Verdict: **correct**, **false**, or **incomplete**.
+1. Numbered statements in natural language (e.g. `P1 Socrates is a man`).
+2. You formalize each in FOML. The app does not translate natural language.
+3. Assumed logic: system **D**, **constant** domain, rigid designators.
+4. Inspector: **valid**, **false**, or **incomplete** (blank if no formula). Incomplete rows can be marked as **postulates** (assumed, not judged).
 
 ```mermaid
 flowchart LR
-  nl[English statements] --> form[User FOML]
-  form --> inf[Claimed entailments]
-  inf --> engine[Tableau engine]
-  engine --> ok[Correct plus closed tableau]
-  engine --> bad[False plus Kripke countermodel]
-  engine --> gap[Incomplete plus why]
+  nl[Natural language] --> form[User FOML]
+  form --> engine[Checker]
+  engine --> ok[Valid]
+  engine --> bad[False]
+  engine --> gap[Incomplete]
 ```
 
 ## Verdicts
 
-- **Correct**: premises and conclusion parse; `premises ⊢ conclusion` tableau closes. Unused extra premises stay correct, with a warning.
-- **False**: saturated open branch yields a finite Kripke countermodel (worlds, accessibility, domain, atomic diagram). The conclusion does not follow — often a missing premise or de re / de dicto mismatch.
-- **Incomplete**: cannot judge. Missing formula, parse error, unknown id, or search bound. FOML is undecidable; a bound is incomplete, never false.
+- **Valid**: follows from the other propositions (later: tableau closes).
+- **False**: the other propositions rule it out (later: countermodel).
+- **Incomplete**: does not follow from the others, and is not ruled out (later: also search bound). Empty formula: inspector blank, not incomplete. Mark as a **postulate** to assume it; inspector greys out; it remains a premise for other rows.
 
 ## Stack
 
@@ -39,7 +37,7 @@ README.md, AGENTS.md, SKILLS.md, PLAN.md, package.json, pnpm-lock.yaml, vite.con
 architecture/
 src/main.tsx, src/App.tsx, src/styles.css
 src/engine/{ast,parse,pretty,tableau,frames,countermodel,check}.ts
-src/ui/{StatementList,FormulaField,InferenceList,VerdictPane,KripkeView,TableauView,LogicBar,Cheatsheet,Examples}.tsx
+src/ui/{StatementList,FormulaField,LogicBar,HowItWorks,InspectorCell,Cheatsheet,Examples,KripkeView,TableauView}.tsx
 src/examples/*.ts
 src/engine/*.test.ts
 ```
@@ -50,7 +48,7 @@ src/engine/*.test.ts
 | --- | --- |
 | This README | Product, run, stack, out of scope |
 | [PLAN.md](PLAN.md) | Build order |
-| [architecture/syntax.md](architecture/syntax.md) | Language and concrete syntax |
+| [architecture/syntax.md](architecture/syntax.md) | Parser contract. Tables: `src/engine/syntaxGuide.ts` |
 | [architecture/engine.md](architecture/engine.md) | Tableau, frames, `checkInference`, tests |
 | [architecture/UI.md](architecture/UI.md) | Workbench, persistence, examples |
 | [AGENTS.md](AGENTS.md) | Agent workflow |
@@ -58,7 +56,7 @@ src/engine/*.test.ts
 
 ## Out of scope (v1)
 
-- Auto-translating English into FOML
+- Auto-translating natural language into FOML
 - Function symbols, higher-order logic, a complete FOML decision procedure
 - Natural-deduction proofs (the tableau is the proof object)
 - Server, accounts, cloud sync, LLM-assisted formalization
