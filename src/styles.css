@@ -73,6 +73,24 @@ body {
   font-size: 0.9rem;
 }
 
+.masthead-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.example-select {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--ink);
+  background: var(--paper-raised);
+  color: var(--ink);
+  cursor: pointer;
+  max-width: 12rem;
+}
+
 .masthead-nav {
   display: flex;
   flex-wrap: wrap;
@@ -234,6 +252,46 @@ th {
   background: #fffdf8;
 }
 
+.formula-field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.formula-palette {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.35rem;
+  margin-bottom: 0.15rem;
+}
+
+.palette-label {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 0.2rem;
+}
+
+.palette-btn {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.1rem 0.35rem;
+  min-width: 1.5rem;
+  line-height: 1.2;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 2px;
+}
+
+.palette-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
 .formula-input {
   min-height: 2.4rem;
   box-sizing: border-box;
@@ -393,6 +451,22 @@ button.row-remove:focus-visible {
   color: var(--ink-muted);
 }
 
+.inspector-inspect-btn {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.inspector-inspect-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
 .inspector-contradicts {
   font-size: 0.78rem;
   font-weight: 400;
@@ -465,6 +539,261 @@ button.row-remove:focus-visible {
 .guide th,
 .guide td {
   border-color: var(--rule);
+}
+
+/* Kripke Countermodel Graph */
+.kripke-graph-container {
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.kripke-graph-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  margin-bottom: 0.25rem;
+}
+
+.kripke-graph-svg {
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  display: block;
+}
+
+.kripke-node-title {
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.kripke-node-text {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  fill: var(--ink-muted);
+}
+
+.kripke-atoms {
+  fill: var(--oxblood);
+}
+
+/* Tableau Proof View */
+.tableau-view {
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.tableau-toggle-btn {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.tableau-toggle-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.tableau-tree-content {
+  margin-top: 0.35rem;
+  padding: 0.4rem;
+  background: var(--paper-raised);
+  border: 1px dashed var(--rule-strong);
+  font-size: 0.8rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.tableau-items {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.tableau-item code {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.tableau-closed-mark {
+  margin-top: 0.2rem;
+}
+
+.closed-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--oxblood);
+}
+
+.tableau-children {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--rule);
+}
+
+.branch-label {
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+/* Cheatsheet Drawer */
+.cheatsheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 26, 20, 0.4);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cheatsheet-drawer {
+  width: 100%;
+  max-width: 32rem;
+  height: 100%;
+  background: var(--paper);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.cheatsheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+}
+
+.cheatsheet-header h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+}
+
+.cheatsheet-close-btn {
+  font-size: 1.1rem;
+  padding: 0.1rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.cheatsheet-close-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.cheatsheet-body {
+  padding: 1.25rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Inspector Drawer */
+.inspector-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 26, 20, 0.4);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.inspector-drawer {
+  width: 100%;
+  max-width: 34rem;
+  height: 100%;
+  background: var(--paper);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideIn 0.2s ease-out;
+}
+
+.inspector-drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+}
+
+.inspector-drawer-header h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+}
+
+.inspector-drawer-nl {
+  margin: 0.25rem 0 0.15rem;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+.inspector-drawer-formula {
+  margin-top: 0.2rem;
+}
+
+.inspector-close-btn {
+  font-size: 1.1rem;
+  padding: 0.1rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.inspector-close-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.inspector-drawer-body {
+  padding: 1.25rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inspector-drawer-status h3,
+.inspector-drawer-section h3 {
+  margin: 0 0 0.4rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.2rem;
 }
 
 @media (max-width: 52rem) {
