@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { inspectSheet } from "../engine/inspect";
 import { FormulaField } from "./FormulaField";
 import { InspectorCell } from "./InspectorCell";
+import { InspectorDrawer } from "./InspectorDrawer";
 import type { Statement } from "./types";
 
 type Props = {
@@ -14,9 +16,14 @@ type Props = {
 };
 
 export function StatementList({ statements, onChange, onAdd, onRemove }: Props) {
+  const [inspectedId, setInspectedId] = useState<string | null>(null);
+
   const looks = inspectSheet(
     statements.map((s) => ({ id: s.id, formula: s.formula })),
   );
+
+  const inspectedStatement = statements.find((s) => s.id === inspectedId);
+  const inspectedLook = inspectedId ? looks.get(inspectedId) : null;
 
   return (
     <section className="workbench">
@@ -70,6 +77,7 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
                   result={look.result}
                   postulate={s.postulate}
                   onPostulate={(postulate) => onChange(s.id, { postulate })}
+                  onInspect={(id) => setInspectedId(id)}
                 />
                 <td className="row-actions">
                   <button
@@ -87,9 +95,20 @@ export function StatementList({ statements, onChange, onAdd, onRemove }: Props) 
           })}
         </tbody>
       </table>
+
       <button type="button" onClick={onAdd}>
         Add a claim
       </button>
+
+      <InspectorDrawer
+        open={Boolean(inspectedId)}
+        onClose={() => setInspectedId(null)}
+        statementId={inspectedStatement?.id ?? null}
+        statementNL={inspectedStatement?.naturalLanguage ?? null}
+        statementFormula={inspectedStatement?.formula ?? null}
+        result={inspectedLook?.result ?? null}
+        postulate={Boolean(inspectedStatement?.postulate)}
+      />
     </section>
   );
 }

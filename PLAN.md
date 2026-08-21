@@ -5,9 +5,5 @@ Agents: [AGENTS.md](AGENTS.md). UI target: [architecture/UI.md](architecture/UI.
 
 ## Next
 
-- Formula palette
-- Persistence (`localStorage`, import / export JSON)
-- Examples
-- SVG Kripke
-- Cheatsheet drawer
-- Collapsible tableau in the inspector
+- System and domain pickers (K / T / D / B / S4 / S5, constant / varying)
+- Additional example benchmark suites

@@ -1,17 +1,93 @@
+import { useRef } from "react";
+import { ALL_EXAMPLES } from "../examples";
+
 type Props = {
   page: "workbench" | "guide";
   onPage: (page: "workbench" | "guide") => void;
+  onOpenCheatsheet: () => void;
+  onSelectExample: (id: string) => void;
+  onExportJson: () => void;
+  onImportJson: (text: string) => void;
 };
 
 const repoUrl = "https://github.com/b0x1/kripke";
 
-export function LogicBar({ page, onPage }: Props) {
+export function LogicBar({
+  page,
+  onPage,
+  onOpenCheatsheet,
+  onSelectExample,
+  onExportJson,
+  onImportJson,
+}: Props) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result;
+      if (typeof text === "string") {
+        onImportJson(text);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  }
+
   return (
     <header className="masthead">
       <div>
         <p className="wordmark">Kripke</p>
         <p className="logic-meta">reasoning tool for debate bros</p>
       </div>
+
+      <div className="masthead-controls">
+        <select
+          className="example-select"
+          defaultValue=""
+          onChange={(e) => {
+            if (e.target.value) {
+              onSelectExample(e.target.value);
+              e.target.value = "";
+            }
+          }}
+          aria-label="Load example"
+        >
+          <option value="" disabled>
+            Load example…
+          </option>
+          {ALL_EXAMPLES.map((ex) => (
+            <option key={ex.id} value={ex.id}>
+              {ex.title}
+            </option>
+          ))}
+        </select>
+
+        <button type="button" onClick={onOpenCheatsheet}>
+          Cheatsheet
+        </button>
+
+        <button type="button" onClick={onExportJson}>
+          Export JSON
+        </button>
+
+        <button type="button" onClick={() => fileInputRef.current?.click()}>
+          Import JSON
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+          aria-label="Import JSON file"
+        />
+      </div>
+
       <nav className="masthead-nav" aria-label="Pages">
         <button
           type="button"
