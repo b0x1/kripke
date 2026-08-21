@@ -9,6 +9,7 @@ pnpm install && pnpm dev
 
 Live: [b0x1.github.io/kripke](https://b0x1.github.io/kripke/).
 Push `master` publishes it (`.github/workflows/pages.yml`).
+PR into `master` runs lint and test (`.github/workflows/ci.yml`).
 
 ## Loop
 
