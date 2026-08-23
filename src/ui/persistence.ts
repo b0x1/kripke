@@ -89,13 +89,24 @@ export function parseImportedJson(jsonText: string): {
   };
 }
 
+const MAX_STATEMENTS = 100;
+const MAX_ID_LENGTH = 100;
+const MAX_TEXT_LENGTH = 2000;
+
 export function normalizeStatements(rawList: unknown[]): Statement[] {
   return rawList
     .filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null)
-    .map((item, idx) => ({
-      id: typeof item.id === "string" && item.id.trim() ? item.id.trim() : `P${idx + 1}`,
-      naturalLanguage: typeof item.naturalLanguage === "string" ? item.naturalLanguage : "",
-      formula: typeof item.formula === "string" ? item.formula : "",
-      postulate: Boolean(item.postulate),
-    }));
+    .slice(0, MAX_STATEMENTS)
+    .map((item, idx) => {
+      const rawId = typeof item.id === "string" && item.id.trim() ? item.id.trim() : `P${idx + 1}`;
+      const rawNL = typeof item.naturalLanguage === "string" ? item.naturalLanguage : "";
+      const rawFormula = typeof item.formula === "string" ? item.formula : "";
+
+      return {
+        id: rawId.slice(0, MAX_ID_LENGTH),
+        naturalLanguage: rawNL.slice(0, MAX_TEXT_LENGTH),
+        formula: rawFormula.slice(0, MAX_TEXT_LENGTH),
+        postulate: Boolean(item.postulate),
+      };
+    });
 }
