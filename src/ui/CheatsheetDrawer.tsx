@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { SyntaxSection } from "./SyntaxSection";
 
 type Props = {
@@ -6,6 +7,19 @@ type Props = {
 };
 
 export function CheatsheetDrawer({ open, onClose }: Props) {
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open, onClose]);
+
   if (!open) {
     return null;
   }
@@ -14,6 +28,8 @@ export function CheatsheetDrawer({ open, onClose }: Props) {
     <div className="cheatsheet-backdrop" onClick={onClose}>
       <aside
         className="cheatsheet-drawer"
+        role="dialog"
+        aria-modal="true"
         onClick={(e) => e.stopPropagation()}
         aria-label="Syntax Cheatsheet"
       >

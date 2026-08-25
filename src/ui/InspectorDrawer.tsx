@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { CheckResult } from "../engine/checkTypes";
 import { FormulaView } from "./FormulaField";
 import { KripkeGraph } from "./KripkeGraph";
@@ -23,6 +24,19 @@ export function InspectorDrawer({
   result,
   postulate,
 }: Props) {
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open, onClose]);
+
   if (!open || !statementId) {
     return null;
   }
@@ -31,6 +45,8 @@ export function InspectorDrawer({
     <div className="inspector-backdrop" onClick={onClose}>
       <aside
         className="inspector-drawer"
+        role="dialog"
+        aria-modal="true"
         onClick={(e) => e.stopPropagation()}
         aria-label={`Inspection details for ${statementId}`}
       >
