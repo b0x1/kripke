@@ -35,4 +35,22 @@ describe("persistence helper", () => {
   it("throws error for invalid JSON shapes", () => {
     expect(() => parseImportedJson("{}")).toThrow("JSON must contain an array of statements");
   });
+
+  it("safely ignores prototype pollution attempts in imported JSON", () => {
+    const maliciousJson = JSON.stringify({
+      statements: [
+        JSON.parse('{"id": "P1", "__proto__": {"polluted": true}, "formula": "P"}'),
+      ],
+    });
+
+    const imported = parseImportedJson(maliciousJson);
+    expect(imported.statements[0]).toEqual({
+      id: "P1",
+      naturalLanguage: "",
+      formula: "P",
+      postulate: false,
+    });
+    // Ensure Global Object prototype is not polluted
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined();
+  });
 });
