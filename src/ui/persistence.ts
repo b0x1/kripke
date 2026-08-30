@@ -89,13 +89,28 @@ export function parseImportedJson(jsonText: string): {
   };
 }
 
+// Security helper: ignore unsafe property names to prevent prototype pollution / unexpected key access
+function getSafeProperty(obj: Record<string, unknown>, key: string): unknown {
+  if (key === "__proto__" || key === "constructor" || key === "prototype") {
+    return undefined;
+  }
+  return Object.prototype.hasOwnProperty.call(obj, key) ? obj[key] : undefined;
+}
+
 export function normalizeStatements(rawList: unknown[]): Statement[] {
   return rawList
     .filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null)
-    .map((item, idx) => ({
-      id: typeof item.id === "string" && item.id.trim() ? item.id.trim() : `P${idx + 1}`,
-      naturalLanguage: typeof item.naturalLanguage === "string" ? item.naturalLanguage : "",
-      formula: typeof item.formula === "string" ? item.formula : "",
-      postulate: Boolean(item.postulate),
-    }));
+    .map((item, idx) => {
+      const rawId = getSafeProperty(item, "id");
+      const rawNL = getSafeProperty(item, "naturalLanguage");
+      const rawFormula = getSafeProperty(item, "formula");
+      const rawPostulate = getSafeProperty(item, "postulate");
+
+      return {
+        id: typeof rawId === "string" && rawId.trim() ? rawId.trim() : `P${idx + 1}`,
+        naturalLanguage: typeof rawNL === "string" ? rawNL : "",
+        formula: typeof rawFormula === "string" ? rawFormula : "",
+        postulate: Boolean(rawPostulate),
+      };
+    });
 }
